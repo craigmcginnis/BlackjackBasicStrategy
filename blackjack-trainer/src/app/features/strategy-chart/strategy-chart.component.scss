@@ -1,0 +1,24 @@
+.legend-list { list-style:none; display:flex; flex-wrap:wrap; padding:0; margin:0 0 8px 0; gap:6px; }
+.legend-list li { margin:0; padding:2px 6px; border-radius:4px; font-size:11px; line-height:1.2; }
+.legend-list li strong { display:inline-block; min-width:1.2em; }
+.legend-list li strong { color:#000; }
+.legend-list .term { margin-left:2px; }
+.legend-note { font-size:11px; margin:4px 0 8px; opacity:0.75; }
+.rule-notes { list-style:none; padding:0; margin:4px 0 12px; display:flex; flex-wrap:wrap; gap:12px; font-size:12px; }
+.rule-notes li { background:#f1f1f1; padding:4px 8px; border-radius:4px; color:#000; }
+.vh{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}
+.chart { width:100%; border-collapse: collapse; margin-bottom:16px; }
+.chart th, .chart td { border:1px solid #666; padding:2px 4px; font-size:11px; text-align:center; }
+.chart td { color:#000; font-weight:600; }
+.chart td:focus-visible { outline:2px solid #000; outline-offset:1px; }
+td.hit, .legend-list .hit { background:#ffcdd2; }
+td.stand, .legend-list .stand { background:#c8e6c9; }
+td.double, .legend-list .double { background:#bbdefb; }
+td.split, .legend-list .split { background:#ffe082; }
+td.surrender, .legend-list .surrender { background:#e1bee7; }
+.visually-hidden{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}
+.sections { display:block; }
+@media (min-width: 1000px) { 
+  .sections { display:grid; grid-template-columns: repeat(3, 1fr); gap:16px; align-items:start; }
+  .section { margin:0; }
+}

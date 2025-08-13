@@ -1,0 +1,6 @@
+.settings{max-width:420px;padding:16px;border:1px solid var(--mat-sys-outline);border-radius:8px; background: var(--mat-sys-surface-container-high); color: var(--mat-sys-on-surface);}
+.field{margin:8px 0; display:block;}
+label{cursor:pointer; display:flex; align-items:center; gap:8px; font-size:14px;}
+input[type=checkbox], select{accent-color: var(--mat-sys-primary);}
+input:focus-visible, select:focus-visible{outline:2px solid var(--mat-sys-primary); outline-offset:2px;}
+.hint{opacity:.75;margin-top:12px;}

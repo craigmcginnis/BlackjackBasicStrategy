@@ -1,0 +1,27 @@
+<mat-card *ngIf="current">
+  <h2>Flashcards</h2>
+  <div class="table">
+    <div class="dealer">
+      <h3>Dealer</h3>
+      <div class="cards">
+        <div class="card" [attr.data-rank]="current.dealerUp.rank" [attr.data-suit]="current.dealerUp.suit">{{current.dealerUp.rank}}</div>
+      </div>
+    </div>
+    <div class="player">
+      <h3>Player</h3>
+      <div class="cards">
+        <div class="card" *ngFor="let c of current.playerCards" [attr.data-rank]="c.rank" [attr.data-suit]="c.suit">{{c.rank}}</div>
+      </div>
+    </div>
+  </div>
+  <p class="question">{{current.label}}</p>
+  <div class="srs-meta" aria-label="Spaced repetition statistics">
+    <small>Due: {{dueCount}} tracked: {{totalTracked}} | EF: {{currentEf}} | Next: {{nextDue}}</small>
+  </div>
+  <div class="buttons" role="group" aria-label="Flashcard answer options" aria-describedby="flash-shortcuts-desc">
+    <button mat-raised-button color="primary" *ngFor="let d of decisions; let i = index" (click)="answer(d)" [attr.aria-label]="'Answer '+d" [attr.autofocus]="i===0?true:null">{{d}}</button>
+  </div>
+  <p id="flash-shortcuts-desc" class="vh">Keyboard shortcuts: H=Hit, S=Stand, D=Double, P=Split, R=Surrender (if available). Use keys directly to answer.</p>
+  <p *ngIf="feedback" role="status" [class.correct]="feedback==='Correct'" [class.incorrect]="feedback!=='Correct'" aria-live="polite">{{feedback}}</p>
+  <p>{{index+1}} / {{items.length}}</p>
+</mat-card>

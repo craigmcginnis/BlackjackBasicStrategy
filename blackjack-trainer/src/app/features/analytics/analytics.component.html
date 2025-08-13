@@ -1,0 +1,74 @@
+<mat-card>
+  <h2>Analytics</h2>
+  <div *ngIf="history().length; else empty">
+  <p><strong>Total Attempts:</strong> {{totAttempts()}} | <strong>Total Correct:</strong> {{totCorrect()}} | <strong>Accuracy:</strong> {{accuracy() | number:'1.0-1'}}% | <strong>Avg Time:</strong> {{avgTime() | number:'1.0-0'}} ms | <strong>Streak:</strong> {{streaks().current}} (Best {{streaks().best}})</p>
+  <p><strong>Hint Use (Drill):</strong> {{hintUsage().withHint}} / {{hintUsage().total}} ({{hintUsage().hintRate | number:'1.0-1'}}%)</p>
+    <h3>Per-Action Accuracy</h3>
+    <table class="hist" *ngIf="actionStats().length">
+      <thead><tr><th>Action</th><th>Attempts</th><th>Correct</th><th>Accuracy%</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let a of actionStats()">
+          <td>{{a.action}}</td>
+          <td>{{a.attempts}}</td>
+          <td>{{a.correct}}</td>
+          <td>{{(a.acc*100)|number:'1.0-1'}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="actionStats().length">
+      <h4>Per-Action Trend (Rolling)</h4>
+      <div class="action-trends">
+        <div class="action-trend" *ngFor="let a of actionStats()">
+          <label>{{a.action}}</label>
+          <div class="mini-spark">
+            <span *ngFor="let p of actionTrends()[a.action]" [style.height.%]="p" [attr.title]="p.toFixed(1)+'%'" ></span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h3>Recent Sessions</h3>
+    <table class="hist">
+      <thead><tr><th>Date/Time</th><th>Mode</th><th>Correct</th><th>Attempts</th><th>Acc%</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let h of recent()">
+          <td>{{h.ts | date:'short'}}</td>
+          <td>{{h.mode}}</td>
+          <td>{{h.correct}}</td>
+          <td>{{h.attempts}}</td>
+          <td>{{(h.correct / h.attempts * 100) | number:'1.0-1'}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>Rolling Accuracy (Last 50)</h3>
+    <div class="spark">
+      <span *ngFor="let p of spark()" [style.height.%]="p" [attr.title]="p.toFixed(1)+'%'" ></span>
+    </div>
+    <h3>Weakest Scenarios (min 3 attempts)</h3>
+    <table class="hist" *ngIf="weakest().length">
+      <thead><tr><th>Scenario</th><th>Attempts</th><th>Accuracy%</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let w of weakest()">
+          <td>{{w.scenario}}</td>
+          <td>{{w.attempts}}</td>
+          <td>{{(w.acc*100) | number:'1.0-1'}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <h3>Hardest Actions (min 5 attempts)</h3>
+    <table class="hist" *ngIf="hardestActions().length">
+      <thead><tr><th>Action</th><th>Attempts</th><th>Accuracy%</th></tr></thead>
+      <tbody>
+        <tr *ngFor="let ha of hardestActions()">
+          <td>{{ha.action}}</td>
+          <td>{{ha.attempts}}</td>
+          <td>{{(ha.acc*100) | number:'1.0-1'}}</td>
+        </tr>
+      </tbody>
+    </table>
+    <p><strong>Average Decision Time:</strong> {{avgTime() | number:'1.0-0'}} ms</p>
+    <button (click)="reset()">Reset Stats</button>
+  </div>
+  <ng-template #empty>
+    <p>No stats yet. Use Drill or Flashcards to generate data.</p>
+  </ng-template>
+</mat-card>

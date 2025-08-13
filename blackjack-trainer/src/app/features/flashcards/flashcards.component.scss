@@ -1,0 +1,10 @@
+.table { display:flex; gap:32px; margin-bottom:12px; }
+.cards { display:flex; gap:8px; }
+.card { width:50px; height:70px; border:1px solid #444; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:600; background:#fff; font-size:18px; position:relative; color:#000; }
+.card[data-suit='♥'], .card[data-suit='♦'] { color:#d32f2f; }
+.card::after { content: attr(data-suit); position:absolute; bottom:2px; right:4px; font-size:14px; opacity:0.7; }
+.buttons { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
+p.correct { color:green; }
+p.incorrect { color:#d32f2f; }
+.question { font-style:italic; }
+.srs-meta { margin-bottom:8px; opacity:.75; }
