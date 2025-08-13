@@ -161,7 +161,7 @@ Key Next Actions (Updated):
 8. Validate specific H17 DAS nuance (A7 vs 2 double) via test. ✅
 9. Add additional H17 deviations (A8 vs 6 double) & broaden validation tests; soft 18 vs A validated (HIT across variants). ✅
 10. Improve function coverage (>70%) focusing on analytics & flashcards helpers. ✅ (Now Functions 69.73%≈70%, Branches 70.88%; added analytics & flashcards specs)
-11. Add spaced repetition algorithm (e.g., SM-2 adaptation) to flashcards. 🟡 (Adaptive SRS implemented with EF & dynamic intervals; SRS stats (due count, EF, next due) now shown in Flashcards; next: tuning UI for EF resets)
+11. Add spaced repetition algorithm (e.g., SM-2 adaptation) to flashcards. ✅ (Enhanced SRS: EF adjustments, lapse handling (partial reset to reviewCount=1), overdue penalty reduces EF if late, refined interval curve (5m → 30m → 12h → multiplicative growth with EF) with caps and minimum spacing.)
 12. Accessibility audit (focus order, ARIA labels, contrast). 🟡 (Skip link, nav landmarks, table semantics, aria-live feedback, button labels, focus-visible styles, keyboard focusable chart cells, legend semantics, shortcut keys, hidden SR-only shortcut descriptions. Next: verify WCAG color contrast & add focus trap tests.)
 13. Prepare deployment workflow & optional PWA scaffold. 🟡 (Added prod build & local preview scripts, GitHub Pages .nojekyll placeholder)
 14. Refactor components to externalize inline templates & styles into separate .html / .scss files for maintainability, theming, and cleaner diffs. ✅ (Analytics, StrategyChart, Flashcards, Drill, Settings extracted)
@@ -195,6 +195,7 @@ Recent Fixes / Enhancements:
  - Removed high contrast toggle in favor of consistently brighter default text colors.
  - Fixed pair scenario key bug (stored total e.g. P-14) now uses actual rank (P-7) with backward compatibility mapping.
  - Added rule presets (Vegas S17/H17, Atlantic H17 LS, Single Deck) for faster configuration.
+ - SRS tuning: Added lapse handling (partial resets), overdue EF penalty, refined interval progression (5m/30m/12h then EF-based growth), EF clamped 1.3–3.5, and tests for lapse & overdue scenarios.
 
 Risk Updates:
 - Remaining H17 edge cases still unverified.

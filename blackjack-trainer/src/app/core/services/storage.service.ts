@@ -20,7 +20,7 @@ export interface IMasteryRepository {
   saveMastery(map: Record<string, number>): void;
   incrementMastery(scenario: string): void;
 }
-export interface SrsEntry { consecutive:number; intervalIndex:number; nextDue:number; ef:number; reviewCount:number; lastInterval:number; }
+export interface SrsEntry { consecutive:number; intervalIndex:number; nextDue:number; ef:number; reviewCount:number; lastInterval:number; lapses?:number; }
 export interface ISrsRepository {
   loadSrs(): Record<string,SrsEntry>;
   saveSrs(map: Record<string,SrsEntry>): void;
@@ -132,34 +132,68 @@ export class StorageService implements IStatsRepository, IMasteryRepository, ISr
     const now = Date.now();
     let entry = srsMap[key];
     if(!entry){
-      entry = { consecutive:0, intervalIndex:0, nextDue: now, ef:2.5, reviewCount:0, lastInterval:0 };
+      entry = { consecutive:0, intervalIndex:0, nextDue: now, ef:2.5, reviewCount:0, lastInterval:0, lapses:0 };
     }
-    // SM-2 style adaptation simplified: quality=5 if correct else 2
-    const quality = correct ? 5 : 2;
-    // update ease factor
-    entry.ef = Math.max(1.3, entry.ef + (0.1 - (5-quality)*(0.08 + (5-quality)*0.02)));
+    // --- Overdue penalty (if user is late, reduce EF slightly before processing answer) ---
+    if(now > entry.nextDue && entry.lastInterval > 0){
+      const overdueMs = now - entry.nextDue;
+      const ratio = overdueMs / entry.lastInterval; // how many intervals late
+      if(ratio > 0.25){
+        // scale penalty up to 0.15 EF drop for very late (> 2x interval)
+        const penalty = Math.min(0.15, 0.05 + 0.05 * ratio);
+        entry.ef = Math.max(1.3, entry.ef - penalty);
+      }
+    }
+
     if(correct){
+      // Ease factor increase (light) using SM-2 style for quality=4-5 mapped simply
+      const quality = 5; // could adapt by response time later
+      entry.ef = Math.max(1.3, entry.ef + (0.1 - (5-quality)*(0.08 + (5-quality)*0.02))); // unchanged formula baseline
       entry.consecutive += 1;
       entry.reviewCount += 1;
       let interval: number;
-      if(entry.reviewCount === 1) interval = 5*60*1000; // 5m
-      else if(entry.reviewCount === 2) interval = 30*60*1000; // 30m
-      else {
-        interval = Math.round(entry.lastInterval * entry.ef);
-        // Cap growth for early stages
-        interval = Math.min(interval, 30*24*60*60*1000); // max 30d for now
+      if(entry.reviewCount === 1){
+        interval = 5*60*1000; // 5m seed
+      } else if(entry.reviewCount === 2){
+        interval = 30*60*1000; // 30m
+      } else if(entry.reviewCount === 3){
+        interval = 12*60*60*1000; // 12h bridge instead of immediate large jump
+      } else {
+        // multiplicative growth with EF and small bonus from streak depth
+        interval = Math.round(entry.lastInterval * entry.ef * (1 + entry.consecutive/20));
       }
+      if(entry.reviewCount >= 3){
+        // enforce a minimum practical spacing after early steps (2h)
+        interval = Math.max(interval, 2*60*60*1000);
+      }
+      // cap interval to 60 days for now
+      interval = Math.min(interval, 60*24*60*60*1000);
       entry.lastInterval = interval;
       entry.nextDue = now + interval;
       entry.intervalIndex += 1;
     } else {
-      // failure: quick retry and reduce ease factor slightly
+      // Distinguish between early failure and lapse (had some retention previously)
+      const wasMature = entry.reviewCount >= 3;
       entry.consecutive = 0;
-      entry.reviewCount = 0;
-      entry.lastInterval = 0;
-      entry.intervalIndex = 0;
-      entry.nextDue = now + 30*1000; // 30s retry
+      if(wasMature){
+        // lapse: partial reset & EF penalty
+        entry.lapses = (entry.lapses || 0) + 1;
+        entry.reviewCount = 1; // keep a foothold; do not wipe entirely
+        entry.intervalIndex = 1;
+        entry.lastInterval = 5*60*1000; // short reintroduction interval
+        entry.ef = Math.max(1.3, entry.ef - (0.2 + 0.05 * Math.min(3, (entry.lapses||0)-1)));
+        entry.nextDue = now + 5*60*1000;
+      } else {
+        // early learning miss: quick retry
+        entry.reviewCount = 0;
+        entry.intervalIndex = 0;
+        entry.lastInterval = 0;
+        entry.ef = Math.max(1.3, entry.ef - 0.15);
+        entry.nextDue = now + 30*1000; // 30s retry
+      }
     }
+    // Final safety clamp
+    entry.ef = Math.max(1.3, Math.min(entry.ef, 3.5));
     srsMap[key] = entry;
     this.saveSrs(srsMap);
     return entry;

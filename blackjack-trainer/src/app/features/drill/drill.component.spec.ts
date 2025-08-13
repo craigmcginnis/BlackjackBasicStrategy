@@ -15,7 +15,7 @@ class MockStorage implements IStorageFacade {
   incrementMastery(_k:string){}
   loadSrs(){ return {}; }
   saveSrs(_m:any){}
-  updateSrsOnAnswer(){ return { consecutive:0, intervalIndex:0, nextDue: Date.now(), ef:2.5, reviewCount:0, lastInterval:0 }; }
+  updateSrsOnAnswer(){ return { consecutive:0, intervalIndex:0, nextDue: Date.now(), ef:2.5, reviewCount:0, lastInterval:0, lapses:0 }; }
   loadRuleSet(){ return null; }
   saveRuleSet(_r:RuleSet){}
   getStreaks(){ return { current:0, best:0 }; }
