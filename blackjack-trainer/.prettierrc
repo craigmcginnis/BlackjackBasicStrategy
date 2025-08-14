@@ -1,0 +1,14 @@
+{
+	"useTabs": true,
+	"tabWidth": 4,
+	"printWidth": 120,
+	"singleQuote": true,
+	"trailingComma": "none",
+	"endOfLine": "auto",
+	"overrides": [
+		{
+			"files": ["*.component.html", "*.html"],
+			"options": { "parser": "angular" }
+		}
+	]
+}

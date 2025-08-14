@@ -1,14 +1,116 @@
- .table { display:flex; gap:32px; margin-bottom:12px; }
- .cards { display:flex; gap:8px; }
- .card { width:50px; height:70px; border:1px solid #444; border-radius:6px; display:flex; align-items:center; justify-content:center; font-weight:600; background:#fff; font-size:18px; position:relative; color:#000; }
- .card[data-suit='♥'], .card[data-suit='♦'] { color:#d32f2f; }
- .card::after { content: attr(data-suit); position:absolute; bottom:2px; right:4px; font-size:14px; opacity:0.7; }
- .buttons { display:flex; flex-wrap:wrap; gap:8px; margin:12px 0; }
- .hand-desc { font-style:italic; }
- p.correct { color:green; }
- p.incorrect { color:#d32f2f; }
- .explanation { background:#f9f9f9; border-left:4px solid #2196F3; padding:8px 12px; margin-top:16px; border-radius:4px; }
- .next-wrapper { display:flex; align-items:center; gap:12px; margin-top:8px; }
- .next-wrapper .hint { opacity:0.7; font-size:12px; }
- .hint-btn { margin-left:8px; }
- .hint-text { margin:4px 0 8px; font-size:13px; color:#555; }
+.table {
+	display: flex;
+	gap: 32px;
+	margin-bottom: 12px;
+}
+.table.vertical {
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.cards {
+	display: flex;
+	gap: 8px;
+}
+.card {
+	width: 50px;
+	height: 70px;
+	border: 1px solid #444;
+	border-radius: 6px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 600;
+	background: #fff;
+	font-size: 18px;
+	position: relative;
+	color: #000;
+}
+.card[data-suit='♥'],
+.card[data-suit='♦'] {
+	color: #d32f2f;
+}
+.card::after {
+	content: attr(data-suit);
+	position: absolute;
+	bottom: 2px;
+	right: 4px;
+	font-size: 14px;
+	opacity: 0.7;
+}
+.stack {
+	position: relative;
+}
+.value-bubble {
+	position: absolute;
+	background: #fff;
+	color: #000;
+	border: 2px solid #000;
+	font-size: 12px;
+	line-height: 1;
+	padding: 4px 6px;
+	border-radius: 16px;
+	font-weight: 600;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+.value-bubble.dealer {
+	bottom: -8px;
+	right: -8px;
+}
+.value-bubble.player {
+	bottom: -14px;
+	left: 50%;
+	transform: translateX(-50%);
+	transition:
+		background-color 0.25s,
+		color 0.25s;
+}
+.player.hint-active .value-bubble.player {
+	color: #000;
+}
+/* Dynamic hint-active color will be applied inline via data-class attribute mapping below */
+/* Hint active background; parent component can later set --chart-hint-bg to match chart cell color */
+.hint-active .value-bubble.player {
+	background: var(--chart-hint-bg, #ffeb3b);
+}
+.buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 12px 0;
+	justify-content: center;
+}
+.hand-desc {
+	font-style: italic;
+}
+p.correct {
+	color: green;
+}
+p.incorrect {
+	color: #d32f2f;
+}
+.explanation {
+	background: #f9f9f9;
+	border-left: 4px solid #2196f3;
+	padding: 8px 12px;
+	margin-top: 16px;
+	border-radius: 4px;
+}
+.next-wrapper {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	margin-top: 8px;
+}
+.next-wrapper .hint {
+	opacity: 0.7;
+	font-size: 12px;
+}
+.hint-btn {
+	margin-left: 8px;
+}
+.hint-text {
+	margin: 4px 0 8px;
+	font-size: 13px;
+	color: #555;
+}

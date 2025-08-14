@@ -1,34 +1,21 @@
-<div class="settings">
-  <h2>Settings</h2>
-  <div class="field">
-    <label>Dealer Hits Soft 17
-      <input type="checkbox" [checked]="rules.hitSoft17" (change)="set('hitSoft17', $event)">
-    </label>
-  </div>
-    <div class="field">
-      <label>Preset
-        <select (change)="applyPreset($event)">
-          <option value="">-- choose --</option>
-          <option *ngFor="let p of presets" [value]="p.id">{{p.name}}</option>
-        </select>
-      </label>
-    </div>
-  <div class="field">
-    <label>Double After Split
-      <input type="checkbox" [checked]="rules.doubleAfterSplit" (change)="set('doubleAfterSplit', $event)">
-    </label>
-  </div>
-  <div class="field">
-    <label>Late Surrender
-      <input type="checkbox" [checked]="rules.lateSurrender" (change)="set('lateSurrender', $event)">
-    </label>
-  </div>
-  <div class="field">
-    <label>Decks
-      <select [value]="rules.decks" (change)="changeDecks($event)">
-        <option *ngFor="let d of [1,2,4,6,8]" [value]="d">{{d}}</option>
-      </select>
-    </label>
-  </div>
-  <p class="hint"><small>Saved locally. Chart & drills adapt automatically.</small></p>
-</div>
+<mat-card class="settings mat-body-1">
+	<mat-form-field appearance="outline" class="full">
+		<mat-label>Preset</mat-label>
+		<mat-select (selectionChange)="applyPreset($event)" placeholder="Choose preset">
+			<mat-option value="">-- none --</mat-option>
+			<mat-option *ngFor="let p of presets" [value]="p.id">{{ p.name }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-checkbox [checked]="rules.hitSoft17" (change)="set('hitSoft17', $event)">Dealer Hits Soft 17 (H17)</mat-checkbox>
+	<mat-checkbox [checked]="rules.doubleAfterSplit" (change)="set('doubleAfterSplit', $event)">Double After Split (DAS)</mat-checkbox>
+	<mat-checkbox [checked]="rules.lateSurrender" (change)="set('lateSurrender', $event)">Late Surrender (LS)</mat-checkbox>
+
+	<mat-form-field appearance="outline" class="sm">
+		<mat-label>Decks</mat-label>
+		<mat-select [value]="rules.decks" (selectionChange)="changeDecks($event)">
+			<mat-option *ngFor="let d of [1, 2, 4, 6, 8]" [value]="d">{{ d }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<p class="hint"><small>Saved locally. Chart & drills adapt automatically.</small></p>
+</mat-card>

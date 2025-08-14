@@ -1,63 +1,62 @@
 <mat-card>
-  <h2>Basic Strategy ({{titleVariant}})</h2>
-  <ul class="rule-notes" aria-label="Rule abbreviation explanations">
-    <li *ngFor="let note of ruleNotes">{{note}}</li>
-  </ul>
-  <div class="legend" role="group" aria-label="Decision legend">
-    <ul class="legend-list">
-      <li class="hit"><strong aria-hidden="true">H</strong> <span class="term">Hit</span></li>
-      <li class="stand"><strong aria-hidden="true">S</strong> <span class="term">Stand</span></li>
-      <li class="double"><strong aria-hidden="true">D</strong> <span class="term">Double</span></li>
-      <li class="split"><strong aria-hidden="true">Sp</strong> <span class="term">Split</span></li>
-      <li class="surrender" *ngIf="hasSurrender"><strong aria-hidden="true">R</strong> <span class="term">Surrender</span></li>
-    </ul>
-  <p class="legend-note">Abbreviations shown inside the chart cells. Colors indicate action type.</p>
-  </div>
-  <div class="sections">
-    <div class="section">
-      <h3>Hard Totals</h3>
-      <table class="chart" role="table" aria-label="Hard total strategy decisions">
-        <caption class="visually-hidden">Hard total decisions vs dealer up card</caption>
-        <thead>
-          <tr><th scope="col">Total</th><th scope="col" *ngFor="let d of dealerValues">{{dLabel(d)}}</th></tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of hardDisplay">
-            <th scope="row">{{row.label}}</th>
-            <td *ngFor="let d of dealerValues" tabindex="0" role="cell" [attr.aria-label]="'Hard '+row.label+' vs '+dLabel(d)+': '+decisionFor(row,d)" [class]="cls(decisionFor(row,d))">{{abbr(decisionFor(row,d))}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="section">
-      <h3>Soft Totals</h3>
-      <table class="chart" role="table" aria-label="Soft total strategy decisions">
-        <caption class="visually-hidden">Soft total decisions vs dealer up card</caption>
-        <thead>
-          <tr><th scope="col">Soft</th><th scope="col" *ngFor="let d of dealerValues">{{dLabel(d)}}</th></tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let grp of softDisplay">
-            <th scope="row">{{grp.label}}</th>
-            <td *ngFor="let d of dealerValues" tabindex="0" role="cell" [attr.aria-label]="'Soft '+grp.label+' vs '+dLabel(d)+': '+decisionForSoft(grp.keys,d)" [class]="cls(decisionForSoft(grp.keys,d))">{{abbr(decisionForSoft(grp.keys,d))}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="section">
-      <h3>Pairs</h3>
-      <table class="chart" role="table" aria-label="Pair strategy decisions">
-        <caption class="visually-hidden">Pair decisions vs dealer up card</caption>
-        <thead>
-          <tr><th scope="col">Pairs</th><th scope="col" *ngFor="let d of dealerValues">{{dLabel(d)}}</th></tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let grp of pairDisplay">
-            <th scope="row">{{grp.label}}</th>
-            <td *ngFor="let d of dealerValues" tabindex="0" role="cell" [attr.aria-label]="'Pair '+grp.label+' vs '+dLabel(d)+': '+decisionForPairs(grp.keys,d)" [class]="cls(decisionForPairs(grp.keys,d))">{{abbr(decisionForPairs(grp.keys,d))}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
+	<ul class="rule-notes" aria-label="Rule abbreviation explanations">
+		<li *ngFor="let note of ruleNotes">{{ note }}</li>
+	</ul>
+	<div class="legend" role="group" aria-label="Decision legend">
+		<ul class="legend-list">
+			<li class="hit"><strong aria-hidden="true">H</strong> <span class="term">Hit</span></li>
+			<li class="stand"><strong aria-hidden="true">S</strong> <span class="term">Stand</span></li>
+			<li class="double"><strong aria-hidden="true">D</strong> <span class="term">Double</span></li>
+			<li class="split"><strong aria-hidden="true">Sp</strong> <span class="term">Split</span></li>
+			<li class="surrender" *ngIf="hasSurrender"><strong aria-hidden="true">R</strong> <span class="term">Surrender</span></li>
+		</ul>
+		<p class="legend-note">Abbreviations shown inside the chart cells. Colors indicate action type.</p>
+	</div>
+	<div class="sections">
+		<div class="section">
+			<h3>Hard Totals</h3>
+			<table mat-table [dataSource]="hardDisplay" class="chart mat-elevation-z2" aria-label="Hard total strategy decisions">
+				<ng-container matColumnDef="label">
+					<th mat-header-cell *matHeaderCellDef>Total</th>
+					<td mat-cell *matCellDef="let row">{{ row.label }}</td>
+				</ng-container>
+				<ng-container *ngFor="let d of dealerValues" [matColumnDef]="'d' + d">
+					<th mat-header-cell *matHeaderCellDef>{{ dLabel(d) }}</th>
+					<td mat-cell *matCellDef="let row" tabindex="0" role="cell" [attr.aria-label]="'Hard ' + row.label + ' vs ' + dLabel(d) + ': ' + decisionFor(row, d)" [class]="cls(decisionFor(row, d))">{{ abbr(decisionFor(row, d)) }}</td>
+				</ng-container>
+				<tr mat-header-row *matHeaderRowDef="hardColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: hardColumns"></tr>
+			</table>
+		</div>
+		<div class="section">
+			<h3>Soft Totals</h3>
+			<table mat-table [dataSource]="softDisplay" class="chart mat-elevation-z2" aria-label="Soft total strategy decisions">
+				<ng-container matColumnDef="label">
+					<th mat-header-cell *matHeaderCellDef>Soft</th>
+					<td mat-cell *matCellDef="let grp">{{ grp.label }}</td>
+				</ng-container>
+				<ng-container *ngFor="let d of dealerValues" [matColumnDef]="'d'+d">
+					<th mat-header-cell *matHeaderCellDef>{{ dLabel(d) }}</th>
+					<td mat-cell *matCellDef="let grp" tabindex="0" role="cell" [attr.aria-label]="'Soft ' + grp.label + ' vs ' + dLabel(d) + ': ' + decisionForSoft(grp.keys, d)" [class]="cls(decisionForSoft(grp.keys, d))">{{ abbr(decisionForSoft(grp.keys, d)) }}</td>
+				</ng-container>
+				<tr mat-header-row *matHeaderRowDef="softColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: softColumns"></tr>
+			</table>
+		</div>
+		<div class="section">
+			<h3>Pairs</h3>
+			<table mat-table [dataSource]="pairDisplay" class="chart mat-elevation-z2" aria-label="Pair strategy decisions">
+				<ng-container matColumnDef="label">
+					<th mat-header-cell *matHeaderCellDef>Pairs</th>
+					<td mat-cell *matCellDef="let grp">{{ grp.label }}</td>
+				</ng-container>
+				<ng-container *ngFor="let d of dealerValues" [matColumnDef]="'d'+d">
+					<th mat-header-cell *matHeaderCellDef>{{ dLabel(d) }}</th>
+					<td mat-cell *matCellDef="let grp" tabindex="0" role="cell" [attr.aria-label]="'Pair ' + grp.label + ' vs ' + dLabel(d) + ': ' + decisionForPairs(grp.keys, d)" [class]="cls(decisionForPairs(grp.keys, d))">{{ abbr(decisionForPairs(grp.keys, d)) }}</td>
+				</ng-container>
+				<tr mat-header-row *matHeaderRowDef="pairColumns"></tr>
+				<tr mat-row *matRowDef="let row; columns: pairColumns"></tr>
+			</table>
+		</div>
+	</div>
 </mat-card>
