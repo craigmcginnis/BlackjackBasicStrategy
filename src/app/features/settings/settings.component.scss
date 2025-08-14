@@ -1,0 +1,42 @@
+.settings {
+	max-width: 480px;
+	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	align-items: center;
+	color: #fff;
+}
+::ng-deep .settings .mat-mdc-form-field,
+::ng-deep .settings .mat-mdc-select-value-text,
+::ng-deep .settings .mat-mdc-floating-label {
+	color: #fff !important;
+}
+::ng-deep .settings .mat-mdc-checkbox label,
+::ng-deep .settings .mat-mdc-checkbox .mdc-label {
+	color: #fff !important;
+}
+.field {
+	margin: 8px 0;
+	display: block;
+}
+label {
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	font-size: 14px;
+}
+input[type='checkbox'],
+select {
+	accent-color: var(--mat-sys-primary);
+}
+input:focus-visible,
+select:focus-visible {
+	outline: 2px solid var(--mat-sys-primary);
+	outline-offset: 2px;
+}
+.hint {
+	opacity: 0.75;
+	margin-top: 12px;
+}

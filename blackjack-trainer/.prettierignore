@@ -1,7 +1,0 @@
-# Ignore build and coverage artifacts
-node_modules/
-dist/
-.angular/
-coverage/
-# Generated lockfiles at root (handled separately)
-package-lock.json
