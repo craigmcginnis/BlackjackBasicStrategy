@@ -239,7 +239,7 @@ Risk Updates:
 Definition of Done Gap Summary:
 
 - Tests: Strong baseline; targeted H17 nuance added; further function coverage pending (added mock repository spec `storage.facade.mock.spec.ts` to exercise contract paths).
-- Accessibility: Partially addressed; pending automated axe checks, contrast audit across palettes, and focus trap tests for future modals; initial automated axe smoke test added (serious/critical rules) with `app.a11y.spec.ts`.
+ - Accessibility: Partially addressed; automated axe smoke test (serious/critical rules) + initial token contrast spec (`contrast.spec.ts`) added; remaining: broaden axe rule scope, verify large text thresholds, implement focus trap dialog test, integrate into CI gating.
 - Changelog: Initiated (CHANGELOG.md created; historical entries backfilled under Unreleased).
 
 ## 16. Changelog & Release Notes
