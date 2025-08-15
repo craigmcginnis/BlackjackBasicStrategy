@@ -1,0 +1,21 @@
+<mat-card class="settings mat-body-1">
+	<mat-form-field appearance="outline" class="full">
+		<mat-label>Preset</mat-label>
+		<mat-select (selectionChange)="applyPreset($event)" placeholder="Choose preset">
+			<mat-option value="">-- none --</mat-option>
+			<mat-option *ngFor="let p of presets" [value]="p.id">{{ p.name }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-checkbox [checked]="rules.hitSoft17" (change)="set('hitSoft17', $event)">Dealer Hits Soft 17 (H17)</mat-checkbox>
+	<mat-checkbox [checked]="rules.doubleAfterSplit" (change)="set('doubleAfterSplit', $event)">Double After Split (DAS)</mat-checkbox>
+	<mat-checkbox [checked]="rules.lateSurrender" (change)="set('lateSurrender', $event)">Late Surrender (LS)</mat-checkbox>
+
+	<mat-form-field appearance="outline" class="sm">
+		<mat-label>Decks</mat-label>
+		<mat-select [value]="rules.decks" (selectionChange)="changeDecks($event)">
+			<mat-option *ngFor="let d of [1, 2, 4, 6, 8]" [value]="d">{{ d }}</mat-option>
+		</mat-select>
+	</mat-form-field>
+	<p class="hint"><small>Saved locally. Chart & drills adapt automatically.</small></p>
+</mat-card>
