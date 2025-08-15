@@ -32,10 +32,15 @@ jobs:
         run: npm run test:ci -- --watch=false --browsers=ChromeHeadless || echo "Tests failed" # adjust to fail build if desired
       - name: Build
         run: npm run build:prod
+      - name: Show dist tree (debug)
+        run: |
+          echo "Dist directory structure:" 
+          find dist -maxdepth 3 -type f -print || ls -R dist
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: dist/blackjack-trainer
+          # Angular 20 application builder places index.html under browser/
+          path: dist/blackjack-trainer/browser
   deploy:
     needs: build
     runs-on: ubuntu-latest
