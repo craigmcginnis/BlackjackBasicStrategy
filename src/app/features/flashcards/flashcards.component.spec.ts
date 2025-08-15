@@ -1,6 +1,6 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FlashcardsComponent } from './flashcards.component';
-import { StorageService } from '../../core/services/storage.service';
+import { StorageService, STORAGE_FACADE } from '../../core/services/storage.service';
 
 class MockStorageService {
 	mastery: Record<string, number> = {};
@@ -11,10 +11,16 @@ class MockStorageService {
 		this.mastery[key] = (this.mastery[key] || 0) + 1;
 	}
 	recordSession() {}
+	loadSrs() { return {}; }
+	saveSrs() {}
+	updateSrsOnAnswer() { return { consecutive:0, intervalIndex:0, nextDue: Date.now(), ef:2.5, reviewCount:0, lastInterval:0 }; }
 	loadStats() {
 		return { history: [] };
 	}
 	saveStats() {}
+	loadRuleSet(){ return null; }
+	saveRuleSet(){}
+	getStreaks(){ return { current:0, best:0 }; }
 }
 
 describe('FlashcardsComponent', () => {
@@ -23,7 +29,10 @@ describe('FlashcardsComponent', () => {
 	beforeEach(() => {
 		TestBed.configureTestingModule({
 			imports: [FlashcardsComponent],
-			providers: [{ provide: StorageService, useClass: MockStorageService }]
+			providers: [
+				{ provide: StorageService, useClass: MockStorageService },
+				{ provide: STORAGE_FACADE, useExisting: StorageService }
+			]
 		});
 		const fixture = TestBed.createComponent(FlashcardsComponent);
 		component = fixture.componentInstance;

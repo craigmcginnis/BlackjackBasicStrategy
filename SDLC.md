@@ -197,6 +197,7 @@ Key Next Actions (Updated):
 13. Prepare deployment workflow & optional PWA scaffold. 🟡 (Added prod build & local preview scripts, GitHub Pages .nojekyll placeholder, created GitHub Actions Pages pipeline deploy.yml with build, test, and deploy steps, initial PWA scaffold: web manifest + theme-color + basic caching service worker registration (skips localhost). Next: integrate Lighthouse CI, enhance SW with runtime stale-while-revalidate strategy & offline analytics queue.)
 14. Refactor components to externalize inline templates & styles into separate .html / .scss files for maintainability, theming, and cleaner diffs. ✅ (Analytics, StrategyChart, Flashcards, Drill, Settings extracted)
 15. Incremental refactor applying SOLID principles (extract interfaces for storage/engine, single-responsibility segregation of analytics calculations, dependency inversion for strategy data). 🟡 (Added AnalyticsMetricsService + StrategyDataService/IStrategyProvider + unit tests + repository interfaces for stats/mastery/SRS/rules; storage facade DI token integrated across Drill/Flashcards/Analytics; next: add mock repo unit tests)
+16. Accessibility enhancement: Focus-trapped keyboard shortcut help dialog + expanded axe route coverage. ✅ (Added `ShortcutHelpDialogComponent` with manual focus trap, escape + backdrop close, heading focus on open, and unit tests for open, escape close, and tab trapping; integrated trigger button in nav; expanded `app.a11y.spec.ts` to scan all primary routes for serious/critical axe violations.)
 
 Recent Fixes / Enhancements:
 

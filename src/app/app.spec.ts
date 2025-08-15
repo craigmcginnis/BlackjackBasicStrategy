@@ -2,12 +2,17 @@ import { TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
+import { STORAGE_FACADE, StorageService } from './core/services/storage.service';
 
 describe('App', () => {
 	beforeEach(async () => {
 		await TestBed.configureTestingModule({
 			imports: [App],
-			providers: [provideRouter(routes)]
+			providers: [
+				provideRouter(routes),
+				StorageService,
+				{ provide: STORAGE_FACADE, useExisting: StorageService }
+			]
 		}).compileComponents();
 	});
 
@@ -21,7 +26,7 @@ describe('App', () => {
 		const fixture = TestBed.createComponent(App);
 		fixture.detectChanges();
 		const compiled = fixture.nativeElement as HTMLElement;
-		const links = Array.from(compiled.querySelectorAll('nav.main-nav a')).map((a) => a.textContent?.trim());
+		const links = Array.from(compiled.querySelectorAll('nav.top-nav a')).map((a) => a.textContent?.trim());
 		expect(links).toContain('Chart');
 		expect(links).toContain('Drill');
 	});
