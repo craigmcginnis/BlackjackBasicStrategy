@@ -234,12 +234,12 @@ Risk Updates:
 
 - Remaining H17 edge cases still unverified.
 - Function coverage below target leaves helper logic exposed to regression.
+- Repository interface contract previously untested (now partially mitigated with mock facade spec improving resilience to future backend swap).
 
 Definition of Done Gap Summary:
 
-- Tests: Strong baseline; targeted H17 nuance added; further function coverage pending.
-- Accessibility: Partially addressed; pending automated axe checks, contrast audit across palettes, and focus trap tests for future modals.
- - Accessibility: Partially addressed; initial automated axe smoke test added (serious/critical rules) with `app.a11y.spec.ts`; remaining: broaden rule scope, contrast token audit, focus trap tests for upcoming dialog, integrate into CI failure criteria.
+- Tests: Strong baseline; targeted H17 nuance added; further function coverage pending (added mock repository spec `storage.facade.mock.spec.ts` to exercise contract paths).
+- Accessibility: Partially addressed; pending automated axe checks, contrast audit across palettes, and focus trap tests for future modals; initial automated axe smoke test added (serious/critical rules) with `app.a11y.spec.ts`.
 - Changelog: Initiated (CHANGELOG.md created; historical entries backfilled under Unreleased).
 
 ## 16. Changelog & Release Notes
