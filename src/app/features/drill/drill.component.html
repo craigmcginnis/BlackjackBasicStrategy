@@ -1,7 +1,7 @@
 <mat-card *ngIf="playerCards.length">
 	<div class="table vertical">
 		<div class="dealer stack">
-			<h3>Dealer</h3>
+			<h2>Dealer</h2>
 			<div class="cards">
 				<div class="card" *ngFor="let c of dealerCards" [attr.data-rank]="c.rank" [attr.data-suit]="c.suit">
 					{{ cardFace(c) }}
@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="player stack" [class.hint-active]="hint">
-			<h3>Player</h3>
+			<h2>Player</h2>
 			<div class="cards">
 				<div class="card" *ngFor="let c of playerCards" [attr.data-rank]="c.rank" [attr.data-suit]="c.suit">
 					{{ cardFace(c) }}

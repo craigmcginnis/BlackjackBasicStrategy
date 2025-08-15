@@ -179,6 +179,8 @@
 		height: 1px;
 		overflow: hidden;
 	}
+	.skip-link { position:absolute; left:-999px; top:4px; background:#ffffff; color:#000; padding:8px 12px; border-radius:4px; font-weight:600; z-index:1000; box-shadow:0 2px 6px rgba(0,0,0,.4); }
+	.skip-link:focus { left:8px; outline:3px solid var(--ui-accent); }
 	@media (max-width: 900px) {
 		.shortcuts {
 			display: block;

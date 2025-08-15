@@ -11,7 +11,7 @@
 		<p>
 			<strong>Hint Use (Drill):</strong> {{ hintUsage().withHint }} / {{ hintUsage().total }} ({{ hintUsage().hintRate | number: '1.0-1' }}%)
 		</p>
-		<h3>Per-Action Accuracy</h3>
+		<h2>Per-Action Accuracy</h2>
 		<table mat-table [dataSource]="actionStats()" *ngIf="actionStats().length" class="mat-elevation-z2" aria-label="Per action accuracy statistics">
 			<caption class="vh">Table showing attempts, correct answers and accuracy percentage for each action type.</caption>
 			<ng-container matColumnDef="action">
@@ -48,7 +48,7 @@
 				</div>
 			</div>
 		</div>
-		<h3>Recent Sessions</h3>
+		<h2>Recent Sessions</h2>
 		<table mat-table [dataSource]="recent()" class="mat-elevation-z2" *ngIf="recent().length" aria-label="Recent drill or flashcard sessions">
 			<caption class="vh">Recent sessions with timestamp, mode, correct answers, attempts and accuracy.</caption>
 			<ng-container matColumnDef="ts">
@@ -74,11 +74,11 @@
 			<tr mat-header-row *matHeaderRowDef="['ts', 'mode', 'correct', 'attempts', 'acc']"></tr>
 			<tr mat-row *matRowDef="let row; columns: ['ts', 'mode', 'correct', 'attempts', 'acc']"></tr>
 		</table>
-		<h3>Rolling Accuracy (Last 50)</h3>
+		<h2>Rolling Accuracy (Last 50)</h2>
 		<div class="spark">
 			<span *ngFor="let p of spark()" [style.height.%]="p" [attr.title]="p.toFixed(1) + '%'"></span>
 		</div>
-		<h3>Weakest Scenarios (min 3 attempts)</h3>
+		<h2>Weakest Scenarios (min 3 attempts)</h2>
 		<table mat-table [dataSource]="weakest()" *ngIf="weakest().length" class="mat-elevation-z2" aria-label="Weakest scenarios requiring improvement">
 			<caption class="vh">List of scenarios with lowest accuracy among those with at least three attempts.</caption>
 			<ng-container matColumnDef="scenario">
@@ -96,7 +96,7 @@
 			<tr mat-header-row *matHeaderRowDef="['scenario', 'attempts', 'accuracy']"></tr>
 			<tr mat-row *matRowDef="let row; columns: ['scenario', 'attempts', 'accuracy']"></tr>
 		</table>
-		<h3>Hardest Actions (min 5 attempts)</h3>
+		<h2>Hardest Actions (min 5 attempts)</h2>
 		<table mat-table [dataSource]="hardestActions()" *ngIf="hardestActions().length" class="mat-elevation-z2" aria-label="Hardest actions with lowest accuracy">
 			<caption class="vh">Actions showing lowest accuracy with at least five attempts.</caption>
 			<ng-container matColumnDef="action">
@@ -114,7 +114,7 @@
 			<tr mat-header-row *matHeaderRowDef="['action', 'attempts', 'accuracy']"></tr>
 			<tr mat-row *matRowDef="let row; columns: ['action', 'attempts', 'accuracy']"></tr>
 		</table>
-		<h3>Decision Time Distribution</h3>
+		<h2>Decision Time Distribution</h2>
 		<table mat-table [dataSource]="timeDist()" *ngIf="timeDist().length" class="mat-elevation-z2" aria-label="Decision time distribution buckets">
 			<caption class="vh">Distribution of decision times in milliseconds grouped into buckets.</caption>
 			<ng-container matColumnDef="bucket">
@@ -128,7 +128,7 @@
 			<tr mat-header-row *matHeaderRowDef="['bucket', 'count']"></tr>
 			<tr mat-row *matRowDef="let row; columns: ['bucket', 'count']"></tr>
 		</table>
-		<h3>Overdue SRS Items (Top 10)</h3>
+		<h2>Overdue SRS Items (Top 10)</h2>
 		<table mat-table [dataSource]="overdue()" *ngIf="overdue().length" class="mat-elevation-z2" aria-label="Most overdue spaced repetition items">
 			<caption class="vh">Top ten overdue spaced repetition items with overdue minutes, ease factor and lapse counts.</caption>
 			<ng-container matColumnDef="scenario">

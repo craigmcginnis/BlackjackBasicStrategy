@@ -17,9 +17,7 @@
 	display: inline-block;
 	min-width: 1.2em;
 }
-.legend-list li strong {
-	color: #000;
-}
+.legend-list li strong { color: #000; }
 .legend-list .term {
 	margin-left: 2px;
 }
@@ -93,7 +91,7 @@ td.stand, .legend-list .stand { background:#43a047 !important; color:#fff; }
 .mat-mdc-table.chart .mat-mdc-cell.double,
 td.double, .legend-list .double { background:#1e88e5 !important; color:#fff; }
 .mat-mdc-table.chart .mat-mdc-cell.split,
-td.split, .legend-list .split { background:#fb8c00 !important; color:#000; }
+td.split, .legend-list .split { background:#ff9800 !important; color:#111; }
 .mat-mdc-table.chart .mat-mdc-cell.surrender,
 td.surrender, .legend-list .surrender { background:#8e24aa !important; color:#fff; }
 /* Ensure focus ring visible on dark backgrounds */

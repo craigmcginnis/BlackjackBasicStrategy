@@ -3,6 +3,7 @@ import { DrillComponent } from './drill.component';
 import { STORAGE_FACADE, IStorageFacade, SessionStatEntry } from '../../core/services/storage.service';
 import { StrategyEngineService } from '../../core/services/strategy-engine.service';
 import { StrategyDataService } from '../../core/services/strategy-data.service';
+import { Injectable } from '@angular/core';
 import { Decision, EvaluatedHand, RuleSet } from '../../core/models/blackjack.models';
 import { of } from 'rxjs';
 
@@ -48,6 +49,7 @@ class MockEngine {
 		return { total: 12, isSoft: false, isPair: false, dealerUpValue: d.value };
 	}
 }
+@Injectable()
 class MockStrategyDataService extends StrategyDataService {
 	// override to avoid needing STRATEGY_DATA
 	override getTablesFor() {
