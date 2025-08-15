@@ -49,13 +49,17 @@ const pairs: ColorPair[] = [
   { fg: tokens.textDim, bg: tokens.card, min: 3, note: 'secondary text' },
   // Accent used for focus outline / interactive; ensure at least 3:1 vs darkest bg.
   { fg: tokens.accent, bg: tokens.bg, min: 3, note: 'accent interactive' },
-  { fg: tokens.accentAlt, bg: tokens.bg, min: 3, note: 'accent-alt interactive' }
+  { fg: tokens.accentAlt, bg: tokens.bg, min: 3, note: 'accent-alt interactive' },
+  // Approximate hover state: accent text on card surface (buttons) needs >=4.5 if normal text.
+  { fg: tokens.accent, bg: tokens.card, min: 4.5, note: 'accent on card (hover text)' },
+  // Large text (>=18pt/24px or 14pt bold) can be 3:1; include a sample (using accentAlt).
+  { fg: tokens.accentAlt, bg: tokens.card, min: 3, note: 'accent-alt large text' }
 ];
 
 describe('Design token contrast ratios', () => {
   it('meets declared minimum contrast thresholds', () => {
     const failures: string[] = [];
-    for (const p of pairs) {
+  for (const p of pairs) {
       const ratio = contrast(p.fg, p.bg);
       if (ratio < p.min) {
         failures.push(`${p.fg} on ${p.bg} ratio ${ratio.toFixed(2)} < ${p.min} ${p.note||''}`.trim());

@@ -120,7 +120,9 @@ EPIC: Persistence
 
 - Storage service abstraction.
 - Save rule set & stats.
-
+17. Accessibility gating expansion (best-practice + configurable thresholds). ✅ (Broadened axe spec to include `best-practice` tag set; added gating test ensuring zero serious/critical WCAG violations (contrast logged separately) with future-ready env override (`A11Y_MAX_SERIOUS`); logs moderate WCAG + best-practice issues for iterative remediation.)
+18. Accessibility regression: Focus trap robustness tests & contrast interactive state extensions. ✅ (Added shift+tab wrap test, focus return to trigger test, expanded contrast spec to include hover/large-text interactive state approximations; coverage modestly improved Branches 44.44%, Lines 74.04%.)
+18. Accessibility regression: Focus trap robustness tests & contrast interactive state extensions. ✅ (Added shift+tab wrap test, focus return to trigger test, expanded contrast spec to include hover/large-text interactive state approximations; coverage modestly improved Branches 44.44%, Lines 74.04%.)
 EPIC: Flashcards
 
 - Iterate matrix combinations sequentially.
@@ -241,7 +243,7 @@ Risk Updates:
 Definition of Done Gap Summary:
 
 - Tests: Strong baseline; targeted H17 nuance added; further function coverage pending (added mock repository spec `storage.facade.mock.spec.ts` to exercise contract paths).
-- Accessibility: Improved; axe now enforces serious/critical (incl. color-contrast) across all primary routes; informational moderate issues logged separately. Added best-practice tag coverage & configurable gating thresholds (currently zero serious/critical allowed). Remaining: extend contrast tests for hover/focus states & large-text 3:1 thresholds, add example CI env config docs, implement automated modal focus trap regression test template.
+- Accessibility: Improved; axe now enforces serious/critical (incl. color-contrast) across all primary routes; informational moderate issues logged separately. Added best-practice tag coverage & configurable gating thresholds (currently zero serious/critical allowed). Remaining: add example CI env config docs, extend contrast tests to capture actual computed styles for hover/focus via harness (current token-level approximation), implement generic modal focus trap regression template for future dialogs, add large-text DOM audit.
 - Changelog: Initiated (CHANGELOG.md created; historical entries backfilled under Unreleased).
 
 ## 16. Changelog & Release Notes

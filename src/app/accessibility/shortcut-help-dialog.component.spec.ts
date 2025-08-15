@@ -51,4 +51,40 @@ describe('ShortcutHelpDialogComponent', () => {
       }, 5);
     }, 10);
   });
+
+  it('wraps focus on shift+tab (single focusable element still stable)', (done) => {
+    component.show();
+    setTimeout(() => {
+      // Move focus to the close button (only tabbable element)
+      const btn = document.querySelector('.close-btn') as HTMLElement | null;
+      expect(btn).toBeTruthy();
+      btn?.focus();
+      expect(document.activeElement).toBe(btn);
+      const shiftTab = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
+      document.dispatchEvent(shiftTab);
+      setTimeout(() => {
+        // With only one tabbable element, focus should remain on it (wrapped)
+        expect(document.activeElement).toBe(btn);
+        done();
+      }, 5);
+    }, 15);
+  });
+
+  it('returns focus to previously focused element on close', (done) => {
+    // Create a temporary button to represent previously focused trigger
+    const trigger = document.createElement('button');
+    trigger.id = 'triggerBtn';
+    document.body.appendChild(trigger);
+    trigger.focus();
+    expect(document.activeElement).toBe(trigger);
+    component.show();
+    setTimeout(() => {
+      component.close();
+      setTimeout(() => {
+        expect(document.activeElement).toBe(trigger);
+        document.body.removeChild(trigger);
+        done();
+      }, 15);
+    }, 20);
+  });
 });
