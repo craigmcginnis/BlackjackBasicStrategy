@@ -198,6 +198,7 @@ Key Next Actions (Updated):
 14. Refactor components to externalize inline templates & styles into separate .html / .scss files for maintainability, theming, and cleaner diffs. ✅ (Analytics, StrategyChart, Flashcards, Drill, Settings extracted)
 15. Incremental refactor applying SOLID principles (extract interfaces for storage/engine, single-responsibility segregation of analytics calculations, dependency inversion for strategy data). 🟡 (Added AnalyticsMetricsService + StrategyDataService/IStrategyProvider + unit tests + repository interfaces for stats/mastery/SRS/rules; storage facade DI token integrated across Drill/Flashcards/Analytics; next: add mock repo unit tests)
 16. Accessibility enhancement: Focus-trapped keyboard shortcut help dialog + expanded axe route coverage. ✅ (Added `ShortcutHelpDialogComponent` with manual focus trap, escape + backdrop close, heading focus on open, and unit tests for open, escape close, and tab trapping; integrated trigger button in nav; expanded `app.a11y.spec.ts` to scan all primary routes for serious/critical axe violations, now including color-contrast.)
+17. Accessibility gating expansion (best-practice + configurable thresholds). ✅ (Broadened axe spec to include `best-practice` tag set; added gating test ensuring zero serious/critical WCAG violations (contrast logged separately) with future-ready env override (`A11Y_MAX_SERIOUS`); logs moderate WCAG + best-practice issues for iterative remediation.)
 
 Recent Fixes / Enhancements:
 
@@ -240,7 +241,7 @@ Risk Updates:
 Definition of Done Gap Summary:
 
 - Tests: Strong baseline; targeted H17 nuance added; further function coverage pending (added mock repository spec `storage.facade.mock.spec.ts` to exercise contract paths).
-- Accessibility: Improved; axe now enforces serious/critical (incl. color-contrast) across all primary routes; informational moderate issues logged separately. Contrast spec present. Remaining: broaden axe rule set (best-practice), add CI fail on any serious/critical violation, extend contrast tests for hover/focus tokens & large text 3:1 thresholds, add future modal focus trap regression test template.
+- Accessibility: Improved; axe now enforces serious/critical (incl. color-contrast) across all primary routes; informational moderate issues logged separately. Added best-practice tag coverage & configurable gating thresholds (currently zero serious/critical allowed). Remaining: extend contrast tests for hover/focus states & large-text 3:1 thresholds, add example CI env config docs, implement automated modal focus trap regression test template.
 - Changelog: Initiated (CHANGELOG.md created; historical entries backfilled under Unreleased).
 
 ## 16. Changelog & Release Notes
