@@ -64,7 +64,9 @@ export class SettingsComponent {
 	constructor(private storage: StorageService) {
 		const saved = this.storage.loadRuleSet();
 		if (saved) this.rules = saved;
+		this.difficulty = this.storage.loadDifficulty();
 	}
+	difficulty: 'EASY' | 'MEDIUM' | 'HARD' = 'MEDIUM';
 	applyPreset(ev: MatSelectChange) {
 		const id = ev.value as string;
 		const preset = this.presets.find((p) => p.id === id);
@@ -83,6 +85,10 @@ export class SettingsComponent {
 		clearTimeout(this.saveTimer);
 		this.saveTimer = setTimeout(() => this.storage.saveRuleSet({ ...this.rules }), 150);
 		window.dispatchEvent(new CustomEvent('rules-changed'));
+	}
+	changeDifficulty(ev: MatSelectChange) {
+		this.difficulty = ev.value as any;
+		this.storage.saveDifficulty(this.difficulty);
 	}
 	set<K extends keyof RuleSet>(key: K, ev: MatCheckboxChange) {
 		(this.rules as any)[key] = ev.checked;

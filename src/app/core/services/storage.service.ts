@@ -5,6 +5,7 @@ const SETTINGS_KEY = 'bj_settings_v1';
 const STATS_KEY = 'bj_stats_v1';
 const MASTERY_KEY = 'bj_mastery_v1';
 const SRS_KEY = 'bj_srs_v1';
+const DIFFICULTY_KEY = 'bj_difficulty_v1';
 
 export interface SessionStatEntry {
 	ts: number;
@@ -16,6 +17,8 @@ export interface SessionStatEntry {
 	scenario?: string;
 	ms?: number;
 	usedHint?: boolean;
+	// Optional difficulty tier for drill sessions (EASY|MEDIUM|HARD). Added later; absent for historical entries.
+	difficulty?: string;
 }
 export interface AggregatedStats {
 	history: SessionStatEntry[];
@@ -54,6 +57,8 @@ export interface IRuleSetRepository {
 // Facade interface combining all repositories for convenient DI
 export interface IStorageFacade extends IStatsRepository, IMasteryRepository, ISrsRepository, IRuleSetRepository {
 	getStreaks(): { current: number; best: number };
+	loadDifficulty(): 'EASY' | 'MEDIUM' | 'HARD';
+	saveDifficulty(level: 'EASY' | 'MEDIUM' | 'HARD'): void;
 }
 export const STORAGE_FACADE = new InjectionToken<IStorageFacade>('STORAGE_FACADE');
 
@@ -65,6 +70,7 @@ export class StorageService implements IStatsRepository, IMasteryRepository, ISr
 	private bestStreak = 0;
 	private masteryCache: Record<string, number> | null = null;
 	private srsCache: Record<string, SrsEntry> | null = null;
+	private difficultyCache: 'EASY' | 'MEDIUM' | 'HARD' | null = null;
 
 	loadRuleSet(): RuleSet | null {
 		if (this.ruleSetSig()) return this.ruleSetSig();
@@ -117,6 +123,23 @@ export class StorageService implements IStatsRepository, IMasteryRepository, ISr
 	}
 	getStreaks() {
 		return { current: this.currentStreak, best: this.bestStreak };
+	}
+	loadDifficulty(): 'EASY' | 'MEDIUM' | 'HARD' {
+		if (this.difficultyCache) return this.difficultyCache;
+		try {
+			const raw = localStorage.getItem(DIFFICULTY_KEY);
+			if (raw === 'EASY' || raw === 'MEDIUM' || raw === 'HARD') {
+				this.difficultyCache = raw;
+				return raw;
+			}
+		} catch {}
+		this.difficultyCache = 'MEDIUM';
+		return 'MEDIUM';
+	}
+	saveDifficulty(level: 'EASY' | 'MEDIUM' | 'HARD') {
+		this.difficultyCache = level;
+		localStorage.setItem(DIFFICULTY_KEY, level);
+		window.dispatchEvent(new CustomEvent('difficulty-changed'));
 	}
 	statsSignal() {
 		return this.statsSig;

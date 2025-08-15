@@ -111,10 +111,12 @@ EPIC: Core Strategy
 
 EPIC: Drill Mode
 
-- Generate random legal player hands.
-- User action buttons.
-- Feedback banner & explanation.
-- Session stats panel.
+- Generate random legal player hands. ✅ (Improved: difficulty-tier distribution + validity heuristics avoiding unintended pairs; weighted weak-spot reinforcement retained.)
+- User action buttons. ✅
+- Feedback banner & explanation. ✅ (Persistent until manual Next; contextual explanation & EV reasoning.)
+- Session stats panel. ✅ (Accuracy, streak, time per decision stored; difficulty tier now recorded.)
+- Difficulty tiers (Easy/Medium/Hard) influencing hand mix & edge-case exposure. ✅
+- Adaptive hint system (one per hand, chart-contextual without leaking exact action). ✅
 
 EPIC: Persistence
 
@@ -157,13 +159,13 @@ Status Legend: ✅ Done | 🟡 Partial | ⛔ Not Started
 
 MVP Functional Requirements:
 
-1. Rule set selection (basic toggles for H17, DAS, surrender, decks) – 🟡 (now includes common casino presets; dynamic multi-preset comparison still pending)
-2. Strategy chart (S17/H17 variants; surrender integrated) – 🟡 (H17 secondary differences still partial, need validation)
-3. Drill mode (random hands, feedback, timing captured) – 🟡 (streak implemented, explanations persist with manual next; remaining: richer hand generation constraints)
-4. Session stats (accuracy %, avg time, weakest scenarios) – 🟡 (streak + per-action trend visualization added; remaining: graphical chart polish)
-5. Flashcard mode (full matrix hard/soft/pairs, mastery counts persisted) – ✅ (spaced repetition algorithm TBD)
-6. Persistence (settings, stats, mastery) – ✅ (refactor to signals & cleanup later)
-7. Accessibility (keyboard/ARIA audit) – 🟡 (baseline landmarks, skip link, aria-live regions, keyboard shortcut guidance)
+1. Rule set selection (decks, H17/S17, DAS, LS toggles + presets) – ✅ (Presets + dynamic variant key propagation; future: multi-preset comparison outside MVP.)
+2. Strategy chart (dynamic S17/H17 + DAS + LS integrated) – ✅ (Variant switching + surrender & DAS decisions surfaced; further rare H17 deviation validation in backlog.)
+3. Drill mode (random/weighted hands, feedback, explanation, timing) – ✅ (Weak-spot weighting, persistent explanation, hint system; future: advanced generation constraints.)
+4. Session stats (accuracy %, streak, time per decision, weakest scenarios) – ✅ (Analytics includes trends, time distribution, hardest actions; future: richer visual charts.)
+5. Flashcard mode (full matrix until mastery) – ✅ (Mastery + adaptive SRS algorithm implemented.)
+6. Persistence (settings, stats, mastery, SRS) – ✅ (LocalStorage abstraction via facade; ready for future backend swap.)
+7. Accessibility (keyboard navigation & ARIA labels) – ✅ (Skip link, landmarks, aria-live feedback, keyboard shortcuts, axe gating <= serious/critical = 0; future: contrast interactive state polish.)
 
 Sprints:
 
@@ -175,12 +177,12 @@ Sprints:
 
 Epics Breakdown:
 
-- Core Strategy: 🟡 (S17 + surrender integrated. Remaining: full H17 deviations & DAS nuance adjustments)
-- Drill Mode: 🟡 (needs explanation text + streak + richer hand generation constraints)
-- Persistence: ✅ (extensible service with stats & mastery)
-- Flashcards: ✅ (mastery loop; improvement: spaced repetition algorithm)
-- Settings: 🟡 (preset selector added; need richer preset metadata & validation feedback)
-- Analytics: 🟡 (weakest scenarios & rolling accuracy done; add per-decision accuracy chart & streaks)
+- Core Strategy: ✅ (StrategyEngineService + StrategyDataService variant key (S17/H17 + DAS + LS) implemented; surrender & DAS integrated; outstanding fine-grain validation of a small set of low-frequency H17 deviations tracked via tests backlog.)
+-- Drill Mode: ✅ (Random & weighted weak-spot generation, difficulty tiers (E/M/H) controlling hand distribution, improved valid hand synthesis (hard/soft/pairs), answer feedback with persistent explanation, streak & best streak tracking, hint system (contextual non-revealing) with usage telemetry, keyboard shortcuts, scenario key normalization, surrender & DAS awareness. Remaining (post-MVP polish): fine-tune distribution weights via aggregated accuracy analytics; parameterize surrender frequency; optional time-pressure mode.)
+- Persistence: ✅ (StorageService + facade interfaces for stats, mastery, SRS, rules; streak logic; local caching.)
+- Flashcards: ✅ (Full matrix build for hard/soft/pairs, mastery progression, SRS adaptive scheduling (intervals, lapses, overdue penalty), keyboard shortcuts, EF & next-due surfacing.)
+- Settings: 🟡 (Preset selector with common casino variants, dynamic rule propagation (events + reactive effects), DAS/LS toggles. Remaining: user feedback on rule save, validation (deck bounds), description tooltips, potential custom rule creation UI.)
+- Analytics: 🟡 (Totals, per-action stats, weakest scenarios, rolling sparkline, action trends, hardest actions, hint usage, time distribution, overdue SRS list, streaks, recent history; Remaining: visual charts (graphical trends), export/share option, per-rule comparison view.)
 
 Key Next Actions (Updated):
 
@@ -202,6 +204,8 @@ Key Next Actions (Updated):
 15. Incremental refactor applying SOLID principles (extract interfaces for storage/engine, single-responsibility segregation of analytics calculations, dependency inversion for strategy data). 🟡 (Added AnalyticsMetricsService + StrategyDataService/IStrategyProvider + unit tests + repository interfaces for stats/mastery/SRS/rules; storage facade DI token integrated across Drill/Flashcards/Analytics; next: add mock repo unit tests)
 16. Accessibility enhancement: Focus-trapped keyboard shortcut help dialog + expanded axe route coverage. ✅ (Added `ShortcutHelpDialogComponent` with manual focus trap, escape + backdrop close, heading focus on open, and unit tests for open, escape close, and tab trapping; integrated trigger button in nav; expanded `app.a11y.spec.ts` to scan all primary routes for serious/critical axe violations, now including color-contrast.)
 17. Accessibility gating expansion (best-practice + configurable thresholds). ✅ (Broadened axe spec to include `best-practice` tag set; added gating test ensuring zero serious/critical WCAG violations (contrast logged separately) with future-ready env override (`A11Y_MAX_SERIOUS`); logs moderate WCAG + best-practice issues for iterative remediation.)
+18. Branch coverage uplift targeting analytics edge buckets & hint usage metrics. 🟡 (Added analytics metrics specs covering time distribution boundary buckets, hint usage rate, recent history ordering, and bucket edge classification; branch coverage improved from 48.35% to 49.11%. Remaining: SRS overdue penalty alternative path & strategy variant rare branch tests to surpass 55% target.)
+19. Branch coverage uplift: strategy chart hard-row merge & abbreviation fallbacks. 🟡 (Added `strategy-chart.component.spec.ts` covering consecutive hard total grouping, action abbreviation mapping (Sp/R/?), and missing hard row fallback; branches now 50.12% (from 49.11%). Remaining: SRS overdue penalty scaling branch, EF min clamp, and strategy variant DAS+surrender rare combo path.)
 
 Recent Fixes / Enhancements:
 
@@ -237,12 +241,12 @@ Recent Fixes / Enhancements:
 
 Risk Updates:
 
-- Function coverage for some helper branches below target (Branches 45.56%) leaves edge logic exposed; plan incremental targeted specs for analytics distribution bucketing & SRS overdue penalty paths.
+- Function coverage for some helper branches below target (Branches 45.56%) leaves edge logic exposed; plan incremental targeted specs for analytics distribution bucketing & SRS overdue penalty paths. ✅ (Added analytics time distribution bucket spec and overdue SRS ordering spec; coverage now Statements 75.27%, Branches 48.35%, Functions 79.00%, Lines 76.58% – incremental branch gain; further targeting of remaining branch gaps planned.)
 - Repository interface contract previously untested (now partially mitigated with mock facade spec improving resilience to future backend swap).
 
 Definition of Done Gap Summary:
 
-- Tests: Strong baseline; H17 + surrender edge cases now fully validated (63 specs passing). Further branch coverage improvements planned (current Branches 45.56%). Added mock repository spec `storage.facade.mock.spec.ts` to exercise contract paths.
+ - Tests: Strong baseline; H17 + surrender edge cases fully validated (71 specs passing). Added analytics boundary bucket, hint usage, recent history, and strategy chart row-merge/abbreviation specs improving coverage (Statements 76.35%, Branches 50.12%, Functions 81.21%, Lines 77.25%). Remaining: raise branch coverage >55% via targeted specs (alternate SRS overdue penalty scaling, storage EF min clamp path, variant DAS+LS combo rarely hit, overdue penalty ratio >2x upper bound logic).
 - Accessibility: Improved; axe now enforces serious/critical (incl. color-contrast) across all primary routes; informational moderate issues logged separately. Added best-practice tag coverage & configurable gating thresholds (currently zero serious/critical allowed). Remaining: add example CI env config docs, extend contrast tests to capture actual computed styles for hover/focus via harness (current token-level approximation), implement generic modal focus trap regression template for future dialogs, add large-text DOM audit.
 - Changelog: Initiated (CHANGELOG.md created; historical entries backfilled under Unreleased).
 

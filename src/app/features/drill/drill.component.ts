@@ -1,5 +1,6 @@
-import { Component, effect, inject, HostListener } from '@angular/core';
+import { Component, effect, inject, HostListener, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { StrategyEngineService } from '../../core/services/strategy-engine.service';
@@ -10,11 +11,11 @@ import { STORAGE_FACADE, IStorageFacade } from '../../core/services/storage.serv
 @Component({
 	selector: 'app-drill',
 	standalone: true,
-	imports: [CommonModule, MatCardModule, MatButtonModule],
+	imports: [CommonModule, FormsModule, MatCardModule, MatButtonModule],
 	templateUrl: './drill.component.html',
 	styleUrls: ['./drill.component.scss']
 })
-export class DrillComponent {
+export class DrillComponent implements OnDestroy {
 	rules: RuleSet = {
 		id: 'default',
 		name: '6D S17',
@@ -32,6 +33,8 @@ export class DrillComponent {
 	expected?: Decision;
 	attempts = 0;
 	correct = 0;
+	// Difficulty tier controlling hand generation distribution
+	difficulty: 'EASY' | 'MEDIUM' | 'HARD' = 'MEDIUM';
 	feedback?: { correct: boolean; message: string };
 	awaitingNext = false;
 	playerCards: { rank: string; value: number; suit: string }[] = [];
@@ -48,7 +51,16 @@ export class DrillComponent {
 			this.loadRules();
 			this.refreshExpected();
 		});
+		this.difficulty = this.storage.loadDifficulty();
+		this.diffListener = () => {
+			this.difficulty = this.storage.loadDifficulty();
+		};
+		window.addEventListener('difficulty-changed', this.diffListener);
 		this.next();
+	}
+	private diffListener?: () => void;
+	ngOnDestroy() {
+		if (this.diffListener) window.removeEventListener('difficulty-changed', this.diffListener);
 	}
 	private loadRules() {
 		const saved = this.storage.loadRuleSet();
@@ -124,8 +136,47 @@ export class DrillComponent {
 			this.playerCards = forced.player;
 			this.dealerCards = [forced.dealer];
 		} else {
-			this.playerCards = [this.randomCard(), this.randomCard()];
-			this.dealerCards = [this.randomCard()];
+			// Difficulty-driven generation
+			const dealer = this.randomDealerCard();
+			let player: { rank: string; value: number; suit: string }[] = [];
+			if (this.difficulty === 'EASY') {
+				const mode = Math.random();
+				if (mode < 0.4) player = this.buildHardTotal(this.randInt(8, 13)); // mid low hard totals
+				else if (mode < 0.7) player = this.buildSoftTotal(this.randInt(13, 18)); // soft A2-A7
+				else {
+					const pairRanks = ['2', '7', '8', 'A'];
+					const r = this.randChoice(pairRanks);
+					player = [this.card(r), this.card(r)];
+				}
+			} else if (this.difficulty === 'HARD') {
+				const mode = Math.random();
+				if (mode < 0.45) player = this.buildHardTotal(this.randInt(12, 16)); // stiff hands
+				else if (mode < 0.7) player = this.buildSoftTotal(this.randInt(17, 20)); // soft 17-19 nuance
+				else if (mode < 0.85) {
+					// potential surrender scenario
+					player = this.buildHardTotal(this.randChoice([15, 16]));
+					if (![9, 10, 11].includes(dealer.value)) {
+						this.dealerCards = [this.makeCardFromValue(this.randChoice([9, 10, 11]))];
+					}
+				} else {
+					const pairRanks = ['9', '4', '5', 'A'];
+					const r = this.randChoice(pairRanks);
+					player = [this.card(r), this.card(r)];
+				}
+			} else {
+				// MEDIUM broad distribution
+				const mode = Math.random();
+				if (mode < 0.33) player = this.buildHardTotal(this.randInt(8, 17));
+				else if (mode < 0.66) player = this.buildSoftTotal(this.randInt(13, 20));
+				else {
+					const pairRanks = ['2', '3', '4', '6', '7', '8', '9', 'A'];
+					const r = this.randChoice(pairRanks);
+					player = [this.card(r), this.card(r)];
+				}
+			}
+			if (!player.length) player = [this.randomCard(), this.randomCard()];
+			this.playerCards = player;
+			if (!this.dealerCards.length) this.dealerCards = [dealer];
 		}
 		const evaluated = this.engine.evaluateHand(this.playerCards, this.dealerCards[0]);
 		this.current = evaluated;
@@ -155,7 +206,8 @@ export class DrillComponent {
 			chosen: a,
 			scenario: this.scenarioKey(),
 			ms: dt,
-			usedHint: this.hintUsed
+			usedHint: this.hintUsed,
+			difficulty: this.difficulty
 		});
 		this.awaitingNext = true;
 	}
@@ -198,6 +250,36 @@ export class DrillComponent {
 		const value = r === 'A' ? 11 : ['J', 'Q', 'K'].includes(r) ? 10 : parseInt(r, 10);
 		const suit = this.suits[Math.floor(Math.random() * this.suits.length)];
 		return { rank: r, value, suit };
+	}
+	private randomDealerCard() {
+		// Slight weighting towards 10-value cards similar to real deck composition
+		const pool = [2, 3, 4, 5, 6, 7, 8, 9, 10, 10, 10, 10, 11];
+		return this.makeCardFromValue(this.randChoice(pool));
+	}
+	private buildHardTotal(total: number) {
+		if (total < 4) total = 4;
+		if (total > 20) total = 20;
+		let first = Math.min(10, Math.max(2, total - this.randInt(2, 10)));
+		let second = total - first;
+		if (second < 2 || second > 11) {
+			first = Math.min(10, Math.floor(total / 2));
+			second = total - first;
+		}
+		if (first === second) {
+			if (first > 2) first -= 1;
+			second = total - first;
+		}
+		return [this.card(String(first)), this.card(String(second))];
+	}
+	private buildSoftTotal(total: number) {
+		const second = Math.max(2, Math.min(10, total - 11));
+		return [this.card('A'), this.card(String(second))];
+	}
+	private randInt(min: number, max: number) {
+		return Math.floor(Math.random() * (max - min + 1)) + min;
+	}
+	private randChoice<T>(arr: T[]): T {
+		return arr[Math.floor(Math.random() * arr.length)];
 	}
 	// helpers used by weak-scenario reconstruction
 	private card(rank: string) {

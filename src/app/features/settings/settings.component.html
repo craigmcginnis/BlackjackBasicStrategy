@@ -17,5 +17,14 @@
 			<mat-option *ngFor="let d of [1, 2, 4, 6, 8]" [value]="d">{{ d }}</mat-option>
 		</mat-select>
 	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="sm">
+		<mat-label>Drill Difficulty</mat-label>
+		<mat-select [value]="difficulty" (selectionChange)="changeDifficulty($event)">
+			<mat-option value="EASY">Easy</mat-option>
+			<mat-option value="MEDIUM">Medium</mat-option>
+			<mat-option value="HARD">Hard</mat-option>
+		</mat-select>
+	</mat-form-field>
 	<p class="hint"><small>Saved locally. Chart & drills adapt automatically.</small></p>
 </mat-card>
