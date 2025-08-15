@@ -238,7 +238,23 @@ Risk Updates:
 Definition of Done Gap Summary:
 
 - Tests: Strong baseline; targeted H17 nuance added; further function coverage pending.
-- Accessibility: Not yet addressed.
-- Changelog: Not started.
+- Accessibility: Partially addressed; pending automated axe checks, contrast audit across palettes, and focus trap tests for future modals.
+ - Accessibility: Partially addressed; initial automated axe smoke test added (serious/critical rules) with `app.a11y.spec.ts`; remaining: broaden rule scope, contrast token audit, focus trap tests for upcoming dialog, integrate into CI failure criteria.
+- Changelog: Initiated (CHANGELOG.md created; historical entries backfilled under Unreleased).
+
+## 16. Changelog & Release Notes
+
+Introduced `CHANGELOG.md` following Keep a Changelog format. Historical progress (pre-file) captured at a high level; ongoing changes will be appended under [Unreleased] then versioned upon release cuts (e.g., 0.1.0 for first public MVP). Release process to include:
+
+1. Ensure tests green & coverage threshold met.
+2. Run accessibility audit (axe + manual contrast) and update any remediations.
+3. Update `CHANGELOG.md` moving Unreleased section to new version heading with date.
+4. Tag git version (e.g., v0.1.0) and push.
+5. Deploy build artifact via GitHub Pages / Netlify.
+
+Planned near-term tasks before first tagged release:
+- Complete contrast verification & add automated axe test harness.
+- Finalize remaining H17 edge case validation tests.
+- Add per-decision accessibility keyboard shortcut help popup (focus-trapped dialog) with tests.
 
 ---
