@@ -193,6 +193,7 @@ Key Next Actions (Updated):
 7. Variant matrix validation tests & coverage baseline. ✅ (Initial: Statements 91.78%, Branches 85.71%, Functions 58.33%)
 8. Validate specific H17 DAS nuance (A7 vs 2 double) via test. ✅
 9. Add additional H17 deviations (A8 vs 6 double) & broaden validation tests; soft 18 vs A validated (HIT across variants). ✅
+9a. Finalize remaining H17 edge case validation (A7 vs 2 non-DAS stands, DAS double verified; surrender matrix full check; hard 17+ invariant). ✅ (Added extended variant spec tests; all 63 specs green.)
 10. Improve function coverage (>70%) focusing on analytics & flashcards helpers. ✅ (Now Functions 69.73%≈70%, Branches 70.88%; added analytics & flashcards specs)
 11. Add spaced repetition algorithm (e.g., SM-2 adaptation) to flashcards. ✅ (Enhanced SRS: EF adjustments, lapse handling (partial reset to reviewCount=1), overdue penalty reduces EF if late, refined interval curve (5m → 30m → 12h → multiplicative growth with EF) with caps and minimum spacing.)
 12. Accessibility audit (focus order, ARIA labels, contrast). 🟡 (Added: skip link, nav landmarks, table semantics, aria-live feedback, button labels, focus-visible styles, keyboard focusable chart cells, legend semantics, shortcut keys, hidden SR-only shortcut descriptions, analytics tables captions + aria-labels + live summary region, descriptive aria-labels on strategy chart decision cells. Progress: enabled axe color-contrast rule across all primary routes; added secondary test to log (not fail) moderate issues for iterative remediation. Remaining: broaden axe scope to include best-practice tags, add CI gating threshold (0 serious/critical), expand contrast spec to cover interactive states (hover/focus) & large-text 3:1 verification, add automated test for future modal focus traps.)
@@ -236,13 +237,12 @@ Recent Fixes / Enhancements:
 
 Risk Updates:
 
-- Remaining H17 edge cases still unverified.
-- Function coverage below target leaves helper logic exposed to regression.
+- Function coverage for some helper branches below target (Branches 45.56%) leaves edge logic exposed; plan incremental targeted specs for analytics distribution bucketing & SRS overdue penalty paths.
 - Repository interface contract previously untested (now partially mitigated with mock facade spec improving resilience to future backend swap).
 
 Definition of Done Gap Summary:
 
-- Tests: Strong baseline; targeted H17 nuance added; further function coverage pending (added mock repository spec `storage.facade.mock.spec.ts` to exercise contract paths).
+- Tests: Strong baseline; H17 + surrender edge cases now fully validated (63 specs passing). Further branch coverage improvements planned (current Branches 45.56%). Added mock repository spec `storage.facade.mock.spec.ts` to exercise contract paths.
 - Accessibility: Improved; axe now enforces serious/critical (incl. color-contrast) across all primary routes; informational moderate issues logged separately. Added best-practice tag coverage & configurable gating thresholds (currently zero serious/critical allowed). Remaining: add example CI env config docs, extend contrast tests to capture actual computed styles for hover/focus via harness (current token-level approximation), implement generic modal focus trap regression template for future dialogs, add large-text DOM audit.
 - Changelog: Initiated (CHANGELOG.md created; historical entries backfilled under Unreleased).
 
