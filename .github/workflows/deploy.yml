@@ -25,20 +25,17 @@ jobs:
         with:
           node-version: 20
           cache: npm
-          cache-dependency-path: blackjack-trainer/package-lock.json
+          cache-dependency-path: package-lock.json
       - name: Install dependencies
-        working-directory: blackjack-trainer
         run: npm ci
       - name: Run unit tests
-        working-directory: blackjack-trainer
         run: npm run test:ci -- --watch=false --browsers=ChromeHeadless || echo "Tests failed" # adjust to fail build if desired
       - name: Build
-        working-directory: blackjack-trainer
         run: npm run build:prod
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: blackjack-trainer/dist/blackjack-trainer
+          path: dist/blackjack-trainer
   deploy:
     needs: build
     runs-on: ubuntu-latest
