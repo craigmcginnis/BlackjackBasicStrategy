@@ -76,11 +76,22 @@ Use precomputed matrices:
 
 ## 7. Iterative Release Plan
 
-Sprint 1 (Week 1): Project scaffold, models, strategy data for one rule set (e.g., 6D S17 DAS LS disabled), StrategyEngineService, basic chart component static.
-Sprint 2: Drill component (random hand generation), feedback, stats service.
-Sprint 3: Flashcard mode + persistence.
-Sprint 4: Settings for multiple rule sets + dynamic chart.
-Sprint 5: Analytics dashboard + polishing, accessibility, unit tests.
+Original MVP sequencing (completed unless noted):
+
+1. Sprint 1 – Scaffold & Core (DONE): Angular project scaffold, core models, initial strategy data (single baseline rule set), `StrategyEngineService`, static strategy chart.
+2. Sprint 2 – Drill Foundations (DONE): Drill component (random hand generation), user action & feedback loop, initial stats service.
+3. Sprint 3 – Flashcards & Persistence (DONE): Flashcard traversal of full matrix, local persistence of settings & progress.
+4. Sprint 4 – Variant Expansion (DONE): Multiple rule variants (S17/H17, DAS, LS), dynamic chart rendering, enhanced settings, difficulty tiers.
+5. Sprint 5 – Analytics, Accessibility & Refactor (DONE / PARTIAL POLISH): Analytics baseline, accessibility improvements, extraction of templates/styles, storage facade & initial coverage uplift. Remaining polish items moved forward.
+
+Forward-looking incremental plan (re-baselined post-MVP):
+
+6. Sprint 6 – Test & A11y Maturity: Raise branch coverage >55%; interactive state contrast automation; generic modal focus-trap regression harness; accessibility CI threshold docs.
+7. Sprint 7 – Analytics Visualization & UX: Graphical trend charts, export/share (CSV/JSON) for weak spots & SRS queue, rule variant comparison view, time-pressure (timed drill) experimental mode, improved theming.
+8. Sprint 8 – Offline & Performance: Enhanced PWA service worker (runtime caching, stale-while-revalidate, offline analytics queue), Lighthouse CI integration, performance budgets.
+9. Sprint 9 – Advanced Learning Features (Stretch): Adaptive weighting refinements (multi-factor), configurable SRS parameter UI, optional count-practice overlay (stretch), custom rule editor.
+
+Out-of-scope (v1): User accounts / cloud sync, multi-hand simulation, card counting training (candidate v2 roadmap items).
 
 ## 8. Quality Plan
 
@@ -153,7 +164,7 @@ Node LTS, Angular CLI latest. Angular Material, optionally NGX Charts for analyt
 - Version strategy JSON using semantic versioning.
 - Lint & test in CI.
 
-## 15. Progress Update (2025-08-10)
+## 15. Progress Update (2025-08-14)
 
 Status Legend: ✅ Done | 🟡 Partial | ⛔ Not Started
 
@@ -167,47 +178,45 @@ MVP Functional Requirements:
 6. Persistence (settings, stats, mastery, SRS) – ✅ (LocalStorage abstraction via facade; ready for future backend swap.)
 7. Accessibility (keyboard navigation & ARIA labels) – ✅ (Skip link, landmarks, aria-live feedback, keyboard shortcuts, axe gating <= serious/critical = 0; future: contrast interactive state polish.)
 
-Sprints:
+Sprint History & Status:
 
-- Sprint 1: ✅
-- Sprint 2: 🟡 (stats basic; explanation panel missing)
-- Sprint 3: 🟡 (mastery present; repetition algorithm & soft/pair originally added later)
-- Sprint 4: 🟡 (basic rule toggles; need richer selector + live propagation everywhere)
-- Sprint 5: 🟡 (analytics baseline; tests & accessibility pending)
+- Sprint 1 (Scaffold & Core): ✅ Completed on schedule.
+- Sprint 2 (Drill Foundations): ✅ Feature-complete; explanation persistence later refined.
+- Sprint 3 (Flashcards & Persistence): ✅ Mastery loop delivered; advanced SRS introduced ahead of roadmap (in Sprint 5).
+- Sprint 4 (Variant Expansion): ✅ Variant matrix (S17/H17 + DAS + LS) integrated; presets added.
+- Sprint 5 (Analytics, Accessibility, Refactor): ✅ Baseline analytics, hint system, accessibility gating, SRS algorithm, refactors, coverage uplift. Residual polish (interactive contrast states, branch coverage >55%) pushed to Sprint 6.
+
+Current Focus: Transitioning into Sprint 6 (test & accessibility maturity) — backlog below.
 
 Epics Breakdown:
 
-- Core Strategy: ✅ (StrategyEngineService + StrategyDataService variant key (S17/H17 + DAS + LS) implemented; surrender & DAS integrated; outstanding fine-grain validation of a small set of low-frequency H17 deviations tracked via tests backlog.)
--- Drill Mode: ✅ (Random & weighted weak-spot generation, difficulty tiers (E/M/H) controlling hand distribution, improved valid hand synthesis (hard/soft/pairs), answer feedback with persistent explanation, streak & best streak tracking, hint system (contextual non-revealing) with usage telemetry, keyboard shortcuts, scenario key normalization, surrender & DAS awareness. Remaining (post-MVP polish): fine-tune distribution weights via aggregated accuracy analytics; parameterize surrender frequency; optional time-pressure mode.)
-- Persistence: ✅ (StorageService + facade interfaces for stats, mastery, SRS, rules; streak logic; local caching.)
-- Flashcards: ✅ (Full matrix build for hard/soft/pairs, mastery progression, SRS adaptive scheduling (intervals, lapses, overdue penalty), keyboard shortcuts, EF & next-due surfacing.)
-- Settings: 🟡 (Preset selector with common casino variants, dynamic rule propagation (events + reactive effects), DAS/LS toggles. Remaining: user feedback on rule save, validation (deck bounds), description tooltips, potential custom rule creation UI.)
-- Analytics: 🟡 (Totals, per-action stats, weakest scenarios, rolling sparkline, action trends, hardest actions, hint usage, time distribution, overdue SRS list, streaks, recent history; Remaining: visual charts (graphical trends), export/share option, per-rule comparison view.)
+- Core Strategy: ✅ Complete; variant coverage & edge-case H17 deviations validated via tests.
+- Drill Mode: ✅ Complete; future enhancements (distribution fine-tuning, surrender frequency tuning, optional time-pressure) scheduled later.
+- Persistence: ✅ Complete with abstraction for future backend swap.
+- Flashcards: ✅ Adaptive SM-2 style SRS (EF clamping, lapse/overdue handling) fully integrated.
+- Settings: 🟡 Functional (presets & toggles) – UX enhancements & custom rule editor pending.
+- Analytics: 🟡 Rich textual metrics ready – graphical visualizations, export, comparison views pending.
 
-Key Next Actions (Updated):
+Key Recent Outcomes (Closed):
 
-1. Integrate late surrender directly into strategy tables (remove overlay). ✅
-2. Refactor engine & chart to consume surrender-integrated variants (S17_LS / H17_LS). ✅
-3. Add DAS dimension & refine H17/DAS nuances (dynamic variant keys). ✅
-4. Per-action accuracy aggregation UI in Analytics. ✅
-5. Seed initial unit tests (engine core scenarios + app shell). ✅
-6. Headless CI Karma config & script (test:ci). ✅
-7. Variant matrix validation tests & coverage baseline. ✅ (Initial: Statements 91.78%, Branches 85.71%, Functions 58.33%)
-8. Validate specific H17 DAS nuance (A7 vs 2 double) via test. ✅
-9. Add additional H17 deviations (A8 vs 6 double) & broaden validation tests; soft 18 vs A validated (HIT across variants). ✅
-9a. Finalize remaining H17 edge case validation (A7 vs 2 non-DAS stands, DAS double verified; surrender matrix full check; hard 17+ invariant). ✅ (Added extended variant spec tests; all 63 specs green.)
-10. Improve function coverage (>70%) focusing on analytics & flashcards helpers. ✅ (Now Functions 69.73%≈70%, Branches 70.88%; added analytics & flashcards specs)
-11. Add spaced repetition algorithm (e.g., SM-2 adaptation) to flashcards. ✅ (Enhanced SRS: EF adjustments, lapse handling (partial reset to reviewCount=1), overdue penalty reduces EF if late, refined interval curve (5m → 30m → 12h → multiplicative growth with EF) with caps and minimum spacing.)
-12. Accessibility audit (focus order, ARIA labels, contrast). 🟡 (Added: skip link, nav landmarks, table semantics, aria-live feedback, button labels, focus-visible styles, keyboard focusable chart cells, legend semantics, shortcut keys, hidden SR-only shortcut descriptions, analytics tables captions + aria-labels + live summary region, descriptive aria-labels on strategy chart decision cells. Progress: enabled axe color-contrast rule across all primary routes; added secondary test to log (not fail) moderate issues for iterative remediation. Remaining: broaden axe scope to include best-practice tags, add CI gating threshold (0 serious/critical), expand contrast spec to cover interactive states (hover/focus) & large-text 3:1 verification, add automated test for future modal focus traps.)
-13. Prepare deployment workflow & optional PWA scaffold. 🟡 (Added prod build & local preview scripts, GitHub Pages .nojekyll placeholder, created GitHub Actions Pages pipeline deploy.yml with build, test, and deploy steps, initial PWA scaffold: web manifest + theme-color + basic caching service worker registration (skips localhost). Next: integrate Lighthouse CI, enhance SW with runtime stale-while-revalidate strategy & offline analytics queue.)
-14. Refactor components to externalize inline templates & styles into separate .html / .scss files for maintainability, theming, and cleaner diffs. ✅ (Analytics, StrategyChart, Flashcards, Drill, Settings extracted)
-15. Incremental refactor applying SOLID principles (extract interfaces for storage/engine, single-responsibility segregation of analytics calculations, dependency inversion for strategy data). 🟡 (Added AnalyticsMetricsService + StrategyDataService/IStrategyProvider + unit tests + repository interfaces for stats/mastery/SRS/rules; storage facade DI token integrated across Drill/Flashcards/Analytics; next: add mock repo unit tests)
-16. Accessibility enhancement: Focus-trapped keyboard shortcut help dialog + expanded axe route coverage. ✅ (Added `ShortcutHelpDialogComponent` with manual focus trap, escape + backdrop close, heading focus on open, and unit tests for open, escape close, and tab trapping; integrated trigger button in nav; expanded `app.a11y.spec.ts` to scan all primary routes for serious/critical axe violations, now including color-contrast.)
-17. Accessibility gating expansion (best-practice + configurable thresholds). ✅ (Broadened axe spec to include `best-practice` tag set; added gating test ensuring zero serious/critical WCAG violations (contrast logged separately) with future-ready env override (`A11Y_MAX_SERIOUS`); logs moderate WCAG + best-practice issues for iterative remediation.)
-18. Branch coverage uplift targeting analytics edge buckets & hint usage metrics. 🟡 (Added analytics metrics specs covering time distribution boundary buckets, hint usage rate, recent history ordering, and bucket edge classification; branch coverage improved from 48.35% to 49.11%. Remaining: SRS overdue penalty alternative path & strategy variant rare branch tests to surpass 55% target.)
-19. Branch coverage uplift: strategy chart hard-row merge & abbreviation fallbacks. 🟡 (Added `strategy-chart.component.spec.ts` covering consecutive hard total grouping, action abbreviation mapping (Sp/R/?), and missing hard row fallback; branches now 50.12% (from 49.11%). Remaining: SRS overdue penalty scaling branch, EF min clamp, and strategy variant DAS+surrender rare combo path.)
+1–4. Variant integration (Surrender + DAS + H17 nuances) & engine/chart refactor – ✅
+5–11. Test baseline + SRS algorithm + coverage uplift – ✅ (Current: Statements 76.35%, Branches 50.12%, Functions 81.21%, Lines 77.25%)
+12 & 16–17. Accessibility enhancements & gating expansion – ✅ (Serious/critical axe violations = 0 across primary routes)
+14. Template/style extraction refactor – ✅
+15. SOLID-oriented service abstractions – 🟡 (Interfaces in place; add mock repository tests)
+18–19. Branch coverage incremental improvements – 🟡 (Target >55% deferred to Sprint 6)
 
-Recent Fixes / Enhancements:
+Upcoming Focus (Sprint 6 Backlog):
+
+S6-1. Branch coverage >55% (tests for SRS overdue penalty scaling, EF min clamp, rare DAS+LS path).
+S6-2. Interactive state contrast automation (hover/focus/active) & large-text 3:1 verification harness.
+S6-3. Generic modal/dialog focus trap regression template; integrate with shortcut dialog.
+S6-4. Accessibility CI documentation & environment variable examples (`A11Y_MAX_SERIOUS`).
+S6-5. Service worker enhancement design doc (runtime caching strategy) ahead of Sprint 8.
+S6-6. Mock repository unit tests for storage facade & analytics metrics (increase mutation/branch coverage).
+S6-7. Time-pressure (optional countdown) drill experiment behind feature flag (may slip to Sprint 7 based on capacity).
+
+Recent Fixes / Enhancements (Consolidated):
 
 - Adjusted Settings component styling to use Material surface tokens instead of near-black custom background for readability; added focus-visible outlines for inputs.
 - Reordered Strategy Chart sections to Hard Totals, then Soft Totals, then Pairs to align with common learning progression.
@@ -226,8 +235,7 @@ Recent Fixes / Enhancements:
 - Implemented adaptive SM-2 style SRS (ease factor, dynamic intervals) with unit tests.
 - Flashcards now display SRS meta (due, tracked count, ease factor, next due) for transparency.
 - Added per-action rolling trend mini-sparks in Analytics with supporting metrics & tests.
-- Added hardest actions summary (lowest accuracy actions with sufficient attempts) to Analytics.
-- Added hardest actions summary (lowest accuracy actions with sufficient attempts) to Analytics plus unit test.
+-- Added hardest actions summary (lowest accuracy actions with sufficient attempts) to Analytics plus unit test.
 - Added Drill on-demand Hint system (non-revealing contextual guidance) with usage tracking (hint usage rate surfaced in Analytics).
 - Strategy Chart legend now shows full action names; added rule abbreviation explanations (H17, S17, DAS, LS).
 - Recorded hint usage per drill session (usedHint flag) for future adaptivity (e.g., weighting mastery by assistance).
@@ -241,14 +249,16 @@ Recent Fixes / Enhancements:
 
 Risk Updates:
 
-- Function coverage for some helper branches below target (Branches 45.56%) leaves edge logic exposed; plan incremental targeted specs for analytics distribution bucketing & SRS overdue penalty paths. ✅ (Added analytics time distribution bucket spec and overdue SRS ordering spec; coverage now Statements 75.27%, Branches 48.35%, Functions 79.00%, Lines 76.58% – incremental branch gain; further targeting of remaining branch gaps planned.)
-- Repository interface contract previously untested (now partially mitigated with mock facade spec improving resilience to future backend swap).
+- Branch Coverage Gap: Still below near-term goal (50.12% vs >55% target). Mitigation: Dedicated Sprint 6 story (S6-1) with focused specs on unexercised branches.
+- Accessibility Interactive States: Contrast for hover/focus not yet automated. Mitigation: S6-2 harness addition; manual review currently performed.
+- Repository Abstractions: Mock tests incomplete. Mitigation: S6-6 will add repository interface contract tests to guard future backend swap.
+- Performance / Offline: Current service worker minimal; offline drill history resilience risk if network-dependent features added later. Mitigation: Sprint 8 PWA enhancement roadmap drafted early (S6-5).
 
 Definition of Done Gap Summary:
 
- - Tests: Strong baseline; H17 + surrender edge cases fully validated (71 specs passing). Added analytics boundary bucket, hint usage, recent history, and strategy chart row-merge/abbreviation specs improving coverage (Statements 76.35%, Branches 50.12%, Functions 81.21%, Lines 77.25%). Remaining: raise branch coverage >55% via targeted specs (alternate SRS overdue penalty scaling, storage EF min clamp path, variant DAS+LS combo rarely hit, overdue penalty ratio >2x upper bound logic).
-- Accessibility: Improved; axe now enforces serious/critical (incl. color-contrast) across all primary routes; informational moderate issues logged separately. Added best-practice tag coverage & configurable gating thresholds (currently zero serious/critical allowed). Remaining: add example CI env config docs, extend contrast tests to capture actual computed styles for hover/focus via harness (current token-level approximation), implement generic modal focus trap regression template for future dialogs, add large-text DOM audit.
-- Changelog: Initiated (CHANGELOG.md created; historical entries backfilled under Unreleased).
+- Tests: Robust; edge-case strategy variants validated. Coverage uplift to >55% (branch) targeted in Sprint 6 (S6-1).
+- Accessibility: Serious/critical violations held at zero; interactive state contrast + large-text audits pending (S6-2); focus-trap regression template pending (S6-3).
+- Changelog: Active; ensure new Sprint 6 stories append under [Unreleased].
 
 ## 16. Changelog & Release Notes
 
