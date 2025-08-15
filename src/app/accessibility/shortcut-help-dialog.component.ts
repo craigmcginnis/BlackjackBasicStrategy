@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { NgIf } from '@angular/common';
 
 /**
@@ -10,7 +10,7 @@ import { NgIf } from '@angular/common';
   imports: [NgIf],
   template: `
     <div *ngIf="open" class="backdrop" (click)="onBackdrop($event)"></div>
-    <div *ngIf="open" class="dialog" role="dialog" aria-modal="true" aria-labelledby="shortcutHelpTitle" #dialogRoot>
+  <div *ngIf="open" id="shortcut-help-dialog" class="dialog" role="dialog" aria-modal="true" aria-labelledby="shortcutHelpTitle" #dialogRoot>
       <h2 id="shortcutHelpTitle" tabindex="-1">Keyboard Shortcuts</h2>
       <p>Use these keys during Drill & Flashcards:</p>
       <ul>
@@ -41,7 +41,7 @@ import { NgIf } from '@angular/common';
     .vh { position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden; }
   `]
 })
-export class ShortcutHelpDialogComponent {
+export class ShortcutHelpDialogComponent implements OnChanges {
   open = false;
   @Output() closed = new EventEmitter<void>();
   @ViewChild('dialogRoot') dialogRoot?: ElementRef<HTMLElement>;
@@ -50,6 +50,20 @@ export class ShortcutHelpDialogComponent {
   private keyHandler?: (e: KeyboardEvent) => void;
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  // External visibility control. When parent sets visible=true we open; when false we close.
+  @Input() visible = false;
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (Object.prototype.hasOwnProperty.call(changes, 'visible')) {
+      const v = changes['visible'].currentValue;
+      if (v && !this.open) {
+        this.show();
+      } else if (!v && this.open) {
+        this.close();
+      }
+    }
+  }
 
   show() {
     if (this.open) return;

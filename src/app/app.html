@@ -13,7 +13,7 @@
 		<a routerLink="/flashcards" routerLinkActive="active">Flashcards</a>
 		<a routerLink="/analytics" routerLinkActive="active">Analytics</a>
 		<a routerLink="/settings" routerLinkActive="active">Settings</a>
-		<button type="button" class="shortcuts-btn" (click)="openShortcutHelp()" aria-haspopup="dialog" [attr.aria-expanded]="helpOpen()" aria-controls="shortcut-help-dialog">?</button>
+		<button type="button" class="shortcuts-btn" (click)="helpOpen() ? closeShortcutHelp() : openShortcutHelp()" aria-haspopup="dialog" [attr.aria-expanded]="helpOpen()" aria-controls="shortcut-help-dialog">?</button>
 	</nav>
 	<div class="header-actions"></div>
 </header>
@@ -23,7 +23,7 @@
 			<strong>Shortcuts:</strong> H S D P R
 		</div>
 		<router-outlet />
-		<app-shortcut-help-dialog *ngIf="helpOpen()" (closed)="closeShortcutHelp()"></app-shortcut-help-dialog>
+		<app-shortcut-help-dialog [visible]="helpOpen()" (closed)="closeShortcutHelp()"></app-shortcut-help-dialog>
 	</main>
 </div>
 <!-- Removed high-contrast toggle & announcements -->
