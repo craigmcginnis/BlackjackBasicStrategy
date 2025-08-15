@@ -1,8 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-	// Home redirects to strategy chart for now
-	{ path: '', pathMatch: 'full', redirectTo: 'chart' },
+	{ path: '', pathMatch: 'full', loadComponent: () => import('./features/home/home.component').then(m => m.HomeComponent) },
 	{
 		path: 'chart',
 		loadComponent: () =>
