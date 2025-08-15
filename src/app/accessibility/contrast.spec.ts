@@ -64,5 +64,6 @@ describe('Design token contrast ratios', () => {
     if (failures.length) {
       fail('Contrast failures:\n' + failures.join('\n'));
     }
+    expect(true).toBeTrue(); // ensure at least one assertion to satisfy Jasmine
   });
 });
