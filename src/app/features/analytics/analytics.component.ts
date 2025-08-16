@@ -45,8 +45,28 @@ export class AnalyticsComponent {
 			(this.storage as any).loadSrs ? (this.storage as any).loadSrs() : {}
 		)
 	);
+	accuracySeries = computed(() => this.metrics.computeAccuracySeries(this.history()));
+
 	reset() {
 		this.storage.saveStats({ history: [] });
 		this.recalc();
+	}
+	exportCsv() {
+		const rows = this.history().map((h) => [h.ts, h.mode, h.correct, h.attempts, h.expected || '', h.scenario || '', h.ms || '']);
+		const header = 'ts,mode,correct,attempts,expected,scenario,ms';
+		const csv = [header, ...rows.map((r) => r.join(','))].join('\n');
+		this.downloadText(csv, 'blackjack-analytics.csv', 'text/csv');
+	}
+	exportJson() {
+		const json = JSON.stringify(this.history(), null, 2);
+		this.downloadText(json, 'blackjack-analytics.json', 'application/json');
+	}
+	private downloadText(content: string, filename: string, type: string) {
+		const blob = new Blob([content], { type });
+		const a = document.createElement('a');
+		a.href = URL.createObjectURL(blob);
+		a.download = filename;
+		a.click();
+		URL.revokeObjectURL(a.href);
 	}
 }

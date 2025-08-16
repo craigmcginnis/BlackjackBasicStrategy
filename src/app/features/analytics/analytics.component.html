@@ -151,7 +151,19 @@
 			<tr mat-row *matRowDef="let row; columns: ['scenario', 'overdue', 'ef', 'lapses']"></tr>
 		</table>
 		<p><strong>Average Decision Time:</strong> {{ avgTime() | number: '1.0-0' }} ms</p>
-		<button (click)="reset()">Reset Stats</button>
+		<h2>Cumulative Accuracy Trend</h2>
+		<div class="spark accuracy-series" aria-label="Cumulative accuracy line shown as bars">
+			<span
+				*ngFor="let p of accuracySeries()"
+				[style.height.%]="p.acc"
+				[attr.title]="(p.acc | number: '1.0-1') + '% at ' + (p.ts | date: 'short')"
+			></span>
+		</div>
+		<div class="export-actions">
+			<button (click)="exportCsv()">Export CSV</button>
+			<button (click)="exportJson()">Export JSON</button>
+			<button (click)="reset()">Reset Stats</button>
+		</div>
 	</div>
 	<ng-template #empty>
 		<p>No stats yet. Use Drill or Flashcards to generate data.</p>

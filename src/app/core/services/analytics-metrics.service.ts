@@ -165,4 +165,19 @@ export class AnalyticsMetricsService {
 		}
 		return Object.entries(buckets).map(([bucket, count]) => ({ bucket, count }));
 	}
+
+	// Returns cumulative accuracy percentages over chronological history (optionally limited to last N entries)
+	computeAccuracySeries(history: SessionStatEntry[], limit = 200) {
+		const slice = history.slice(-limit);
+		let attempts = 0;
+		let correct = 0;
+		return slice.map((h) => {
+			attempts += h.attempts;
+			correct += h.correct;
+			return {
+				ts: h.ts,
+				acc: attempts ? (correct / attempts) * 100 : 0
+			};
+		});
+	}
 }

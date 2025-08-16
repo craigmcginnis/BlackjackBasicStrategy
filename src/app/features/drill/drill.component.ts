@@ -33,8 +33,8 @@ export class DrillComponent implements OnDestroy {
 	expected?: Decision;
 	attempts = 0;
 	correct = 0;
-	// Difficulty tier controlling hand generation distribution
-	difficulty: 'EASY' | 'MEDIUM' | 'HARD' = 'MEDIUM';
+	// Focus category controlling which table area is emphasized
+	difficulty: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL' = 'ALL';
 	feedback?: { correct: boolean; message: string };
 	awaitingNext = false;
 	playerCards: { rank: string; value: number; suit: string }[] = [];
@@ -132,51 +132,64 @@ export class DrillComponent implements OnDestroy {
 			}
 			forced = { player, dealer } as any;
 		}
+		// Helper: ensure forced scenario matches current focus; otherwise discard
+		const matchesFocus = (player: { rank: string; value: number }[]) => {
+			const a = player[0];
+			const b = player[1];
+			const isPair = a.rank === b.rank;
+			const hasAce = a.rank === 'A' || b.rank === 'A';
+			const softTotal = hasAce && !isPair; // A + X (not AA)
+			if (this.difficulty === 'HARD_TOTALS') return !isPair && !softTotal; // strictly hard non-pair
+			if (this.difficulty === 'SOFT_TOTALS') return softTotal; // any soft (exclude AA treated as pair)
+			if (this.difficulty === 'PAIRS') return isPair; // any pair including AA
+			return true; // ALL accepts any
+		};
+		if (forced && !matchesFocus(forced.player)) forced = null; // ignore weak reinforcement if off-focus
 		if (forced) {
 			this.playerCards = forced.player;
 			this.dealerCards = [forced.dealer];
 		} else {
-			// Difficulty-driven generation
+			// Focus-category-driven generation (strict)
 			const dealer = this.randomDealerCard();
 			let player: { rank: string; value: number; suit: string }[] = [];
-			if (this.difficulty === 'EASY') {
+			if (this.difficulty === 'HARD_TOTALS') {
+				// Loop until strictly hard (no Ace counted as soft, not a pair)
+				for (let i = 0; i < 25; i++) {
+					player = this.buildHardTotal(this.randInt(8, 17));
+					const r1 = player[0].rank;
+					const r2 = player[1].rank;
+					if (r1 !== r2 && r1 !== 'A' && r2 !== 'A') break;
+				}
+			} else if (this.difficulty === 'SOFT_TOTALS') {
+				// Generate only soft (A + non-A) totals within 13-20 (i.e., A2..A9)
+				const tgt = this.randInt(13, 20);
+				player = this.buildSoftTotal(tgt);
+				// ensure not A,A
+				if (player[1].rank === 'A') player[1] = this.card(String(this.randInt(2, 9)));
+			} else if (this.difficulty === 'PAIRS') {
+				const pairPool = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'A'];
+				const r = this.randChoice(pairPool);
+				player = [this.card(r), this.card(r)];
+			} else if (this.difficulty === 'ALL') {
+				// Balanced distribution remains as before
 				const mode = Math.random();
-				if (mode < 0.4) player = this.buildHardTotal(this.randInt(8, 13)); // mid low hard totals
-				else if (mode < 0.7) player = this.buildSoftTotal(this.randInt(13, 18)); // soft A2-A7
+				if (mode < 0.4) player = this.buildHardTotal(this.randInt(8, 17));
+				else if (mode < 0.7) player = this.buildSoftTotal(this.randInt(13, 20));
 				else {
-					const pairRanks = ['2', '7', '8', 'A'];
-					const r = this.randChoice(pairRanks);
+					const pairPool = ['2', '3', '4', '6', '7', '8', '9', 'A'];
+					const r = this.randChoice(pairPool);
 					player = [this.card(r), this.card(r)];
 				}
-			} else if (this.difficulty === 'HARD') {
-				const mode = Math.random();
-				if (mode < 0.45) player = this.buildHardTotal(this.randInt(12, 16)); // stiff hands
-				else if (mode < 0.7) player = this.buildSoftTotal(this.randInt(17, 20)); // soft 17-19 nuance
-				else if (mode < 0.85) {
-					// potential surrender scenario
-					player = this.buildHardTotal(this.randChoice([15, 16]));
-					if (![9, 10, 11].includes(dealer.value)) {
-						this.dealerCards = [this.makeCardFromValue(this.randChoice([9, 10, 11]))];
-					}
-				} else {
-					const pairRanks = ['9', '4', '5', 'A'];
-					const r = this.randChoice(pairRanks);
-					player = [this.card(r), this.card(r)];
-				}
-			} else {
-				// MEDIUM broad distribution
-				const mode = Math.random();
-				if (mode < 0.33) player = this.buildHardTotal(this.randInt(8, 17));
-				else if (mode < 0.66) player = this.buildSoftTotal(this.randInt(13, 20));
-				else {
-					const pairRanks = ['2', '3', '4', '6', '7', '8', '9', 'A'];
-					const r = this.randChoice(pairRanks);
-					player = [this.card(r), this.card(r)];
+				// If soft chosen ensure not A,A (keep pairs in pair branch)
+				if (player.length === 2 && player[0].rank === 'A' && player[1].rank === 'A' && Math.random() < 0.5) {
+					// occasionally convert AA to a soft non-pair if not focusing on pairs specifically
+					player[1] = this.card(String(this.randInt(2, 9)));
 				}
 			}
 			if (!player.length) player = [this.randomCard(), this.randomCard()];
 			this.playerCards = player;
-			if (!this.dealerCards.length) this.dealerCards = [dealer];
+			// Always refresh dealer card each generation for a new scenario
+			this.dealerCards = [dealer];
 		}
 		const evaluated = this.engine.evaluateHand(this.playerCards, this.dealerCards[0]);
 		this.current = evaluated;

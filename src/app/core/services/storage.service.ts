@@ -6,6 +6,7 @@ const STATS_KEY = 'bj_stats_v1';
 const MASTERY_KEY = 'bj_mastery_v1';
 const SRS_KEY = 'bj_srs_v1';
 const DIFFICULTY_KEY = 'bj_difficulty_v1';
+const CUSTOM_RULES_KEY = 'bj_custom_rules_v1';
 
 export interface SessionStatEntry {
 	ts: number;
@@ -57,8 +58,8 @@ export interface IRuleSetRepository {
 // Facade interface combining all repositories for convenient DI
 export interface IStorageFacade extends IStatsRepository, IMasteryRepository, ISrsRepository, IRuleSetRepository {
 	getStreaks(): { current: number; best: number };
-	loadDifficulty(): 'EASY' | 'MEDIUM' | 'HARD';
-	saveDifficulty(level: 'EASY' | 'MEDIUM' | 'HARD'): void;
+	loadDifficulty(): 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL';
+	saveDifficulty(level: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL'): void;
 }
 export const STORAGE_FACADE = new InjectionToken<IStorageFacade>('STORAGE_FACADE');
 
@@ -70,7 +71,8 @@ export class StorageService implements IStatsRepository, IMasteryRepository, ISr
 	private bestStreak = 0;
 	private masteryCache: Record<string, number> | null = null;
 	private srsCache: Record<string, SrsEntry> | null = null;
-	private difficultyCache: 'EASY' | 'MEDIUM' | 'HARD' | null = null;
+	private difficultyCache: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL' | null = null;
+	private customRulesCache: RuleSet[] | null = null;
 
 	loadRuleSet(): RuleSet | null {
 		if (this.ruleSetSig()) return this.ruleSetSig();
@@ -88,6 +90,32 @@ export class StorageService implements IStatsRepository, IMasteryRepository, ISr
 	saveRuleSet(rules: RuleSet) {
 		localStorage.setItem(SETTINGS_KEY, JSON.stringify(rules));
 		this.ruleSetSig.set(rules);
+	}
+
+	// --- Custom Rule Sets (user-defined presets) ---
+	loadCustomRuleSets(): RuleSet[] {
+		if (this.customRulesCache) return this.customRulesCache;
+		try {
+			const raw = localStorage.getItem(CUSTOM_RULES_KEY);
+			this.customRulesCache = raw ? (JSON.parse(raw) as RuleSet[]) : [];
+			return this.customRulesCache;
+		} catch {
+			this.customRulesCache = [];
+			return [];
+		}
+	}
+	saveCustomRuleSets(list: RuleSet[]) {
+		this.customRulesCache = list;
+		localStorage.setItem(CUSTOM_RULES_KEY, JSON.stringify(list));
+	}
+	addCustomRuleSet(rules: RuleSet) {
+		const list = this.loadCustomRuleSets();
+		list.push(rules);
+		this.saveCustomRuleSets(list);
+	}
+	deleteCustomRuleSet(id: string) {
+		const list = this.loadCustomRuleSets().filter((r) => r.id !== id);
+		this.saveCustomRuleSets(list);
 	}
 
 	ruleSetSignal() {
@@ -124,19 +152,20 @@ export class StorageService implements IStatsRepository, IMasteryRepository, ISr
 	getStreaks() {
 		return { current: this.currentStreak, best: this.bestStreak };
 	}
-	loadDifficulty(): 'EASY' | 'MEDIUM' | 'HARD' {
+	loadDifficulty(): 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL' {
 		if (this.difficultyCache) return this.difficultyCache;
 		try {
 			const raw = localStorage.getItem(DIFFICULTY_KEY);
-			if (raw === 'EASY' || raw === 'MEDIUM' || raw === 'HARD') {
-				this.difficultyCache = raw;
-				return raw;
+			if (raw === 'HARD_TOTALS' || raw === 'SOFT_TOTALS' || raw === 'PAIRS' || raw === 'ALL') {
+				this.difficultyCache = raw as any;
+				return this.difficultyCache as 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL';
 			}
+			// Backward compatibility: if no stored value, fall back to new default 'ALL'
 		} catch {}
-		this.difficultyCache = 'MEDIUM';
-		return 'MEDIUM';
+		this.difficultyCache = 'ALL';
+		return 'ALL';
 	}
-	saveDifficulty(level: 'EASY' | 'MEDIUM' | 'HARD') {
+	saveDifficulty(level: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL') {
 		this.difficultyCache = level;
 		localStorage.setItem(DIFFICULTY_KEY, level);
 		window.dispatchEvent(new CustomEvent('difficulty-changed'));

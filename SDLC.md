@@ -143,13 +143,20 @@ EPIC: Flashcards
 
 EPIC: Settings
 
-- Rule set selector.
-- Toggle variants.
+- Rule set selector. ✅ (Multiple built-in presets + dynamic variant propagation)
+- Toggle variants. ✅ (H17/S17, DAS, LS, deck count)
+- Custom rule presets (create/apply/delete). ✅ (Local persistence; collision-safe IDs; immediate rules-changed event dispatch)
+- Pending: Advanced custom rule editor (non-standard options) & multi-preset comparison (future backlog)
 
 EPIC: Analytics
 
 - Weakest decisions list.
 - Accuracy over time chart.
+ - Cumulative accuracy trend (sparkline) ✅
+ - Per-action rolling trends ✅
+ - Export (CSV/JSON) of raw session history ✅
+ - Overdue SRS items & time distribution ✅
+ - Pending (future): Full graphical charts (line/bar via chart lib), variant comparison view, interactive filters.
 
 ## 12. Environment Setup
 
@@ -194,8 +201,8 @@ Epics Breakdown:
 - Drill Mode: ✅ Complete; future enhancements (distribution fine-tuning, surrender frequency tuning, optional time-pressure) scheduled later.
 - Persistence: ✅ Complete with abstraction for future backend swap.
 - Flashcards: ✅ Adaptive SM-2 style SRS (EF clamping, lapse/overdue handling) fully integrated.
-- Settings: 🟡 Functional (presets & toggles) – UX enhancements & custom rule editor pending.
-- Analytics: 🟡 Rich textual metrics ready – graphical visualizations, export, comparison views pending.
+- Settings: ✅ Functional (presets, toggles, custom preset CRUD). Remaining future enhancements: advanced editor & comparison view.
+- Analytics: 🟡 Expanded (weakest scenarios, hardest actions, per-action trends, cumulative accuracy series, exports, overdue SRS, time distribution). Remaining: rich chart library visuals & comparison view.
 
 Key Recent Outcomes (Closed):
 
@@ -244,6 +251,8 @@ Recent Fixes / Enhancements (Consolidated):
 - Removed high contrast toggle in favor of consistently brighter default text colors.
 - Fixed pair scenario key bug (stored total e.g. P-14) now uses actual rank (P-7) with backward compatibility mapping.
 - Added rule presets (Vegas S17/H17, Atlantic H17 LS, Single Deck) for faster configuration.
+- Added custom rule preset CRUD (save current rules with name, list, apply, delete; persisted in local storage).
+- Added cumulative accuracy series visualization & per-action rolling trend sparks; added CSV/JSON export of history.
 - SRS tuning: Added lapse handling (partial resets), overdue EF penalty, refined interval progression (5m/30m/12h then EF-based growth), EF clamped 1.3–3.5, and tests for lapse & overdue scenarios.
 - Added analytics metrics: overdue SRS items (top 10 by lateness) and decision time distribution buckets for speed insight.
 

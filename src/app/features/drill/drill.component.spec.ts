@@ -8,6 +8,7 @@ import { Decision, EvaluatedHand, RuleSet } from '../../core/models/blackjack.mo
 import { of } from 'rxjs';
 
 class MockStorage implements IStorageFacade {
+	private difficulty: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL' = 'ALL';
 	loadStats() {
 		return { history: [] };
 	}
@@ -40,6 +41,8 @@ class MockStorage implements IStorageFacade {
 	getStreaks() {
 		return { current: 0, best: 0 };
 	}
+	loadDifficulty(){ return this.difficulty; }
+	saveDifficulty(l: 'HARD_TOTALS'|'SOFT_TOTALS'|'PAIRS'|'ALL'){ this.difficulty = l; }
 }
 class MockEngine {
 	getDecision(_h: EvaluatedHand, _r: RuleSet): Decision {

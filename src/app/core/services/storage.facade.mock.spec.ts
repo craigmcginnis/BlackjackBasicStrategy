@@ -3,6 +3,7 @@ import { IStorageFacade, AggregatedStats, SessionStatEntry, SrsEntry } from './s
 class InMemoryStorageFacade implements IStorageFacade {
   history: SessionStatEntry[] = [];  mastery: Record<string, number> = {}; srs: Record<string, SrsEntry> = {}; rules: any = null;
   current = 0; best = 0;
+  private difficulty: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL' = 'HARD_TOTALS';
   loadStats(): AggregatedStats { return { history: this.history }; }
   saveStats(stats: AggregatedStats): void { this.history = stats.history; }
   recordSession(entry: SessionStatEntry): void {
@@ -28,6 +29,8 @@ class InMemoryStorageFacade implements IStorageFacade {
   loadRuleSet(): any { return this.rules; }
   saveRuleSet(r: any): void { this.rules = r; }
   getStreaks(): { current: number; best: number } { return { current: this.current, best: this.best }; }
+  loadDifficulty(){ return this.difficulty; }
+  saveDifficulty(l: 'HARD_TOTALS'|'SOFT_TOTALS'|'PAIRS'|'ALL'){ this.difficulty = l; }
 }
 
 describe('InMemoryStorageFacade mock', () => {

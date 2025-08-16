@@ -4,6 +4,7 @@ import { STORAGE_FACADE, AggregatedStats, IStorageFacade, SessionStatEntry } fro
 
 class MockStorageFacade implements IStorageFacade {
 	private stats: AggregatedStats = { history: [] };
+	private difficulty: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL' = 'ALL';
 	loadStats() {
 		return this.stats;
 	}
@@ -40,6 +41,8 @@ class MockStorageFacade implements IStorageFacade {
 	getStreaks() {
 		return { current: 3, best: 7 };
 	}
+	loadDifficulty() { return this.difficulty; }
+	saveDifficulty(l: 'HARD_TOTALS'|'SOFT_TOTALS'|'PAIRS'|'ALL') { this.difficulty = l; }
 }
 
 describe('AnalyticsComponent', () => {

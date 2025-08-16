@@ -3,7 +3,7 @@
 	<div class="brand">
 		<div class="logo" aria-hidden="true">BJ</div>
 		<div class="title">
-			<h1>Blackjack Trainer</h1>
+			<h1><a routerLink="/" class="home-link" aria-label="Go to home">Blackjack Trainer</a></h1>
 			<small class="variant" aria-live="polite">Learning Mode</small>
 		</div>
 	</div>
@@ -75,6 +75,9 @@
 		color: var(--ui-text);
 		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.55);
 	}
+	.app-header h1 a.home-link { color: inherit; text-decoration: none; display: inline-block; padding:4px 2px; border-radius:8px; }
+	.app-header h1 a.home-link:focus-visible { outline:2px solid var(--ui-accent); outline-offset:3px; }
+	.app-header h1 a.home-link:hover { text-decoration: underline; }
 	.app-header .variant {
 		display: block;
 		font-size: 0.72rem;

@@ -64,6 +64,8 @@ table.weakest td {
 	background: #4caf50;
 	min-width: 2px;
 }
+.accuracy-series span { background: #2196f3; }
+.export-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
 .action-trends {
 	display: flex;
 	flex-wrap: wrap;

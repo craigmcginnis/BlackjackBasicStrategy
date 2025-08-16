@@ -193,4 +193,13 @@ describe('AnalyticsMetricsService', () => {
 		// Ensure minutes are non-negative
 		overdue.forEach((o) => expect(o.overdueMinutes).toBeGreaterThan(0));
 	});
+
+	it('computes cumulative accuracy series', () => {
+		const series = svc.computeAccuracySeries(history);
+		expect(series.length).toBe(history.length);
+		// accuracy should be non-decreasing when cumulative correct ratio doesn't drop drastically unless last entry incorrect
+		for (let i = 1; i < series.length; i++) {
+			expect(series[i].acc).toBeGreaterThanOrEqual(0);
+		}
+	});
 });

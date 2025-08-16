@@ -1,11 +1,27 @@
 <mat-card class="settings mat-body-1">
-	<mat-form-field appearance="outline" class="full">
+	<mat-form-field appearance="outline" class="preset-select">
 		<mat-label>Preset</mat-label>
-		<mat-select (selectionChange)="applyPreset($event)" placeholder="Choose preset">
-			<mat-option value="">-- none --</mat-option>
-			<mat-option *ngFor="let p of presets" [value]="p.id">{{ p.name }}</mat-option>
+		<mat-select [value]="rules.id" (selectionChange)="applyPreset($event)" [attr.aria-label]="'Select strategy preset'">
+			<mat-optgroup label="Built-in" *ngIf="presets.length">
+				<mat-option *ngFor="let p of presets" [value]="p.id">{{ p.name }}</mat-option>
+			</mat-optgroup>
+			<mat-optgroup label="Custom" *ngIf="customPresets.length">
+				<mat-option *ngFor="let p of customPresets" [value]="p.id">{{ p.name }}</mat-option>
+			</mat-optgroup>
 		</mat-select>
 	</mat-form-field>
+
+	<section class="custom-presets" aria-labelledby="customPresetsHeading">
+		<h3 id="customPresetsHeading" class="visually-hidden">Custom Presets</h3>
+		<div class="row create">
+			<mat-form-field appearance="outline" class="full">
+				<mat-label>New Custom Preset Name</mat-label>
+				<input matInput [(ngModel)]="newPresetName" placeholder="e.g. Home Practice" />
+			</mat-form-field>
+			<button mat-raised-button color="primary" (click)="createCustomPreset()" [disabled]="!newPresetName.trim()">Save Current Rules as Preset</button>
+		</div>
+		<!-- custom presets now integrated into dropdown -->
+	</section>
 
 	<mat-checkbox [checked]="rules.hitSoft17" (change)="set('hitSoft17', $event)">Dealer Hits Soft 17 (H17)</mat-checkbox>
 	<mat-checkbox [checked]="rules.doubleAfterSplit" (change)="set('doubleAfterSplit', $event)">Double After Split (DAS)</mat-checkbox>
@@ -19,11 +35,12 @@
 	</mat-form-field>
 
 	<mat-form-field appearance="outline" class="sm">
-		<mat-label>Drill Difficulty</mat-label>
-		<mat-select [value]="difficulty" (selectionChange)="changeDifficulty($event)">
-			<mat-option value="EASY">Easy</mat-option>
-			<mat-option value="MEDIUM">Medium</mat-option>
-			<mat-option value="HARD">Hard</mat-option>
+		<mat-label>Focus Category</mat-label>
+		<mat-select [value]="difficulty" (selectionChange)="changeDifficulty($event)" aria-label="Select drill focus category">
+			<mat-option value="ALL">All (Balanced)</mat-option>
+			<mat-option value="HARD_TOTALS">Hard Totals</mat-option>
+			<mat-option value="SOFT_TOTALS">Soft Totals</mat-option>
+			<mat-option value="PAIRS">Pairs</mat-option>
 		</mat-select>
 	</mat-form-field>
 	<p class="hint"><small>Saved locally. Chart & drills adapt automatically.</small></p>
