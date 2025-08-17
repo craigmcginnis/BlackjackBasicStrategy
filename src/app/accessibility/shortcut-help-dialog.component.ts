@@ -19,6 +19,7 @@ import { NgIf } from '@angular/common';
         <li><kbd>D</kbd> – Double</li>
         <li><kbd>P</kbd> – Split</li>
         <li><kbd>R</kbd> – Surrender</li>
+  <li><kbd>N</kbd> – Next hand (Drill after feedback)</li>
       </ul>
       <p>Other:</p>
       <ul>

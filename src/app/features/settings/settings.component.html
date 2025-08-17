@@ -18,7 +18,9 @@
 				<mat-label>New Custom Preset Name</mat-label>
 				<input matInput [(ngModel)]="newPresetName" placeholder="e.g. Home Practice" />
 			</mat-form-field>
-			<button mat-raised-button color="primary" (click)="createCustomPreset()" [disabled]="!newPresetName.trim()">Save Current Rules as Preset</button>
+			<div class="buttons">
+				<button mat-raised-button color="primary" (click)="createCustomPreset()" [disabled]="!newPresetName.trim()" aria-label="Save current rules as a custom preset">Save Current Rules as Preset</button>
+			</div>
 		</div>
 		<!-- custom presets now integrated into dropdown -->
 	</section>

@@ -124,4 +124,15 @@ describe('DrillComponent', () => {
 		component.showHint();
 		expect(component.hint).toBe(first); // unchanged
 	});
+
+	it('N key advances to next after answering', () => {
+		const firstHand = component.current;
+		component.answer('HIT');
+		expect(component.awaitingNext).toBeTrue();
+		// simulate keydown N
+		const evt = new KeyboardEvent('keydown', { key: 'n' });
+		component.onKey(evt as any);
+		expect(component.awaitingNext).toBeFalse();
+		expect(component.current).not.toBe(firstHand);
+	});
 });

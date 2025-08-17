@@ -394,6 +394,15 @@ export class DrillComponent implements OnDestroy {
 	}
 	@HostListener('window:keydown', ['$event'])
 	onKey(ev: KeyboardEvent) {
+		// If we're awaiting next and user presses the Next shortcut, advance
+		if (this.awaitingNext && ev.key.toLowerCase() === 'n') {
+			// Prevent advancing if focus is inside an input (future proofing)
+			const target = ev.target as HTMLElement | null;
+			if (target && ['input', 'textarea'].includes(target.tagName.toLowerCase())) return;
+			ev.preventDefault();
+			this.next();
+			return;
+		}
 		if (!this.current || !this.expected) return;
 		const key = ev.key.toLowerCase();
 		const map: Record<string, Decision> = { h: 'HIT', s: 'STAND', d: 'DOUBLE', p: 'SPLIT', r: 'SURRENDER' };

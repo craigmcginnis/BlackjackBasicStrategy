@@ -25,7 +25,7 @@
 		<button mat-stroked-button type="button" (click)="showHint()" [disabled]="!!hint || awaitingNext" aria-label="Show chart hint" class="hint-btn">Hint</button>
 	</div>
 	<p id="drill-shortcuts-desc" class="vh">
-		Keyboard shortcuts: H=Hit, S=Stand, D=Double, P=Split, R=Surrender. Use Tab to reach buttons then press
+		Keyboard shortcuts: H=Hit, S=Stand, D=Double, P=Split, R=Surrender. After answering, N=Next. Use Tab to reach buttons then press
 		Enter/Space.
 	</p>
 	<p *ngIf="hint && !explanation" class="hint-text" aria-live="polite">{{ hint }}</p>
@@ -36,7 +36,7 @@
 		<p>{{ explanation }}</p>
 		<div class="next-wrapper" *ngIf="awaitingNext">
 			<button mat-stroked-button color="accent" (click)="next()" aria-label="Go to next drill" autofocus>Next</button>
-			<small class="hint">Press Enter or Space when focused. Shortcuts: H,S,D,P,R to answer.</small>
+			<small class="hint">Press Enter/Space or N for next. Shortcuts: H,S,D,P,R to answer.</small>
 		</div>
 	</div>
 </mat-card>

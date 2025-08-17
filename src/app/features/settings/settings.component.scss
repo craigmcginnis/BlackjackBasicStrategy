@@ -53,6 +53,15 @@ select:focus-visible {
 	margin-top: 12px;
 }
 
+/* Match shared button group styling used elsewhere (drill/flashcards) */
+.buttons {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px;
+	margin: 12px 0;
+	justify-content: center;
+}
+
 .custom-presets {
 	width: 100%;
 	margin-top: 8px;
