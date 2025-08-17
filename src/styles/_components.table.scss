@@ -1,0 +1,123 @@
+/* Table Primitive (BEM)
+   Bridging Strategy:
+   The app currently uses Angular Material tables. Applying the `.table` class to a
+   `<table mat-table>` element enables these styles without rewriting templates.
+   We map BEM element selectors to Material's internal structure when `.table` is present.
+*/
+.table,
+.table.mat-mdc-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--color-surface);
+    border: 1px solid var(--table-border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--elevation-1);
+    overflow: hidden;
+    font-size: 11px;
+    /* base/dense */
+}
+
+.table--dense {
+    font-size: 11px;
+}
+
+.table--roomy {
+    font-size: 12px;
+}
+
+.table__header-row,
+.table.mat-mdc-table .mat-mdc-header-row {
+    background: linear-gradient(180deg, var(--table-header-bg), color-mix(in srgb, var(--table-header-bg) 70%, black));
+    color: var(--table-header-color);
+    font-weight: 600;
+    letter-spacing: .5px;
+}
+
+.table__row:nth-child(even) .table__cell,
+.table.mat-mdc-table .mat-mdc-row:nth-child(even) .mat-mdc-cell {
+    background: var(--table-row-alt);
+}
+
+.table__row:hover .table__cell,
+.table.mat-mdc-table .mat-mdc-row:hover .mat-mdc-cell {
+    background: var(--table-row-hover);
+}
+
+.table__cell,
+.table__header-cell,
+.table.mat-mdc-table .mat-mdc-cell,
+.table.mat-mdc-table .mat-mdc-header-cell {
+    border-right: 1px solid var(--table-border-color);
+    padding: 4px 6px;
+    text-align: center;
+    font-size: inherit;
+    color: var(--color-text-muted);
+}
+
+.table__header-cell:last-child,
+.table__cell:last-child,
+.table.mat-mdc-table .mat-mdc-header-cell:last-child,
+.table.mat-mdc-table .mat-mdc-cell:last-child {
+    border-right: none;
+}
+
+.table__cell:focus-visible,
+.table.mat-mdc-table .mat-mdc-cell:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 0;
+}
+
+/* Modifier: compact */
+.table--compact .table__cell,
+.table--compact .table__header-cell,
+.table.table--compact .mat-mdc-cell,
+.table.table--compact .mat-mdc-header-cell {
+    padding: 2px 4px;
+}
+
+/* Roomy variant (used by analytics) */
+.table--roomy .table__cell,
+.table--roomy .table__header-cell,
+.table.table--roomy .mat-mdc-cell,
+.table.table--roomy .mat-mdc-header-cell {
+    padding: 6px 8px;
+}
+
+/* Action background variants (strategy chart) - legacy class bridge */
+.table .hit,
+.table__cell--hit {
+    background: var(--color-action-hit) !important;
+    /* Contrast fix: dark text on lighter action background */
+    color: var(--color-text-inverse);
+}
+
+.table .stand,
+.table__cell--stand {
+    background: var(--color-action-stand) !important;
+    color: var(--color-text);
+}
+
+.table .double,
+.table__cell--double {
+    background: var(--color-action-double) !important;
+    /* Contrast fix: dark text on medium action background */
+    color: var(--color-text-inverse);
+}
+
+.table .split,
+.table__cell--split {
+    background: var(--color-action-split) !important;
+    color: var(--color-text-inverse);
+}
+
+.table .surrender,
+.table__cell--surrender {
+    background: var(--color-action-surrender) !important;
+    color: var(--color-text);
+}
+
+/* Deprecated legacy class (temporary alias)
+   TODO remove after 2025-09-15 once all usages confirmed gone */
+.c-table-base {
+    @extend .table;
+}

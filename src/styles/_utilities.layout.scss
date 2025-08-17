@@ -1,0 +1,42 @@
+/* Layout Utilities */
+.u-button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    justify-content: center;
+}
+
+/* Flex helpers (keep minimal; expand only as needed) */
+.u-flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.u-flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.u-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Gap utilities (example subset) */
+.u-gap-2 {
+    gap: var(--space-2);
+}
+
+.u-gap-3 {
+    gap: var(--space-3);
+}
+
+.u-gap-4 {
+    gap: var(--space-4);
+}
+
+/* Player/hand stack spacing utility (≈20px) */
+.u-stack-spaced {
+    margin-bottom: calc(var(--space-5) + 4px);
+}

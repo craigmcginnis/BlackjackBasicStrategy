@@ -1,0 +1,6 @@
+/* Motion Tokens */
+:root {
+    --ease-standard: cubic-bezier(.4, 0, .2, 1);
+    --transition-fast: 120ms var(--ease-standard);
+    --transition-base: 200ms var(--ease-standard);
+}

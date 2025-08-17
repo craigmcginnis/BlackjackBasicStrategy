@@ -1,84 +1,67 @@
 .table {
 	display: flex;
-	gap: 32px;
-	margin-bottom: 12px;
+	gap: var(--space-6);
+	margin-bottom: var(--space-4);
 }
+
 .table.vertical {
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
 }
+
 .cards {
 	display: flex;
-	gap: 8px;
+	gap: var(--space-3);
 }
-.card {
-	width: 50px;
-	height: 70px;
-	border: 1px solid #444;
-	border-radius: 6px;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-weight: 600;
-	background: #fff;
-	font-size: 18px;
-	position: relative;
-	color: #000;
-}
-.card[data-suit='♥'],
-.card[data-suit='♦'] {
-	color: #d32f2f;
-}
-.card::after {
-	content: attr(data-suit);
-	position: absolute;
-	bottom: 2px;
-	right: 4px;
-	font-size: 14px;
-	opacity: 0.7;
-}
+
+/* Card visuals now from global .card primitive */
 .stack {
 	position: relative;
 }
+
+/* Adopt card-value-bubble primitive for consistency */
 .value-bubble {
 	position: absolute;
-	background: #fff;
-	color: #000;
-	border: 2px solid #000;
+	background: var(--color-text);
+	color: var(--color-text-inverse);
+	border: 2px solid var(--color-text-inverse);
 	font-size: 12px;
 	line-height: 1;
 	padding: 4px 6px;
 	border-radius: 16px;
 	font-weight: 600;
-	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+	/* Use elevation token instead of raw shadow */
+	box-shadow: var(--elevation-1);
 }
+
 .value-bubble.dealer {
 	bottom: -8px;
 	right: -8px;
 }
+
 .value-bubble.player {
 	bottom: -14px;
 	left: 50%;
 	transform: translateX(-50%);
 }
-.buttons {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin: 12px 0;
-	justify-content: center;
-}
+
+/* Button group now handled by global .u-button-group utility */
+
 p.correct {
-	color: green;
+	color: var(--color-positive);
 }
+
 p.incorrect {
-	color: #d32f2f;
+	color: var(--color-negative);
 }
+
 .question {
 	font-style: italic;
 }
+
 .srs-meta {
 	margin-bottom: 8px;
-	opacity: 0.75;
+	/* Use color token instead of opacity for accessibility */
+	color: var(--color-text-subtle);
 }

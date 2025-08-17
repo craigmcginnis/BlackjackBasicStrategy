@@ -1,0 +1,71 @@
+/* Card Primitive (playing card visuals & generic card container) */
+.card {
+    width: 50px;
+    height: 70px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    background: var(--color-text);
+    /* white-like surface inside dark theme */
+    font-size: 18px;
+    position: relative;
+    color: var(--color-text-inverse);
+    box-shadow: var(--elevation-1);
+}
+
+.card[data-suit='♥'],
+.card[data-suit='♦'] {
+    color: var(--color-negative);
+}
+
+.card::after {
+    content: attr(data-suit);
+    position: absolute;
+    bottom: 2px;
+    right: 4px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+/* Value bubble inside drill/flashcards */
+.card-value-bubble {
+    position: absolute;
+    background: var(--color-text);
+    color: var(--color-text-inverse);
+    border: 2px solid var(--color-text-inverse);
+    font-size: 12px;
+    line-height: 1;
+    padding: 4px 6px;
+    border-radius: 16px;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+}
+
+.card-value-bubble--dealer {
+    bottom: -8px;
+    right: -8px;
+}
+
+.card-value-bubble--player {
+    bottom: -14px;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.hint-active .card-value-bubble--player {
+    background: var(--color-hint);
+    color: var(--color-text-inverse);
+}
+
+/* Status text helpers */
+.status-correct {
+    color: var(--color-positive);
+}
+
+.status-incorrect {
+    color: var(--color-negative);
+}

@@ -4,106 +4,86 @@ table.weakest {
 	border-collapse: collapse;
 	margin-bottom: 16px;
 }
-/* Material tables high-contrast dark styling (aligned with strategy chart) */
-.mat-mdc-table {
-	background: #15212c;
-	--table-border: #2f3d4a;
-	--table-header-bg: #20303d;
-	--table-header-color: #f1f6f9;
-	--table-row-hover: #293847;
-	--table-row-alt: #1c2b36;
-	border: 1px solid var(--table-border);
-	border-radius: 6px;
-	margin-bottom: 16px;
-	box-shadow: 0 1px 2px rgba(0,0,0,.4), 0 0 0 1px rgba(255,255,255,.03) inset;
+
+/* Table styling now provided by global `.table` primitive. */
+table.table {
+	margin-bottom: var(--space-5);
 }
-.mat-mdc-table .mat-mdc-header-row {
-	background: linear-gradient(180deg,var(--table-header-bg), #1b2a36);
-	color: var(--table-header-color);
-	font-weight: 600;
-	letter-spacing: .5px;
+
+table.table.table--roomy {
+	font-size: 12px;
 }
-.mat-mdc-table .mat-mdc-row:nth-child(even) .mat-mdc-cell { background: var(--table-row-alt); }
-.mat-mdc-table .mat-mdc-row:hover .mat-mdc-cell { background: var(--table-row-hover); }
-.mat-mdc-table .mat-mdc-cell, .mat-mdc-table .mat-mdc-header-cell {
-	border-right: 1px solid var(--table-border);
+
+table.table.table--roomy .mat-mdc-cell,
+table.table.table--roomy .mat-mdc-header-cell {
 	padding: 6px 8px;
-	font-size: 12px;
-	text-align: center;
-	color: #e8edf1;
 }
-.mat-mdc-table .mat-mdc-cell:last-child, .mat-mdc-table .mat-mdc-header-cell:last-child { border-right: none; }
-.mat-mdc-table .mat-mdc-row .mat-mdc-cell { color: #e8edf1; }
-/* Improve numeric emphasis */
-.mat-mdc-table .mat-mdc-cell:nth-child(n+2) { font-variant-numeric: tabular-nums; }
-/* Focus ring for accessibility */
-.mat-mdc-table .mat-mdc-cell:focus-visible { outline:2px solid #ffffff; outline-offset:0; }
-table.hist th,
-table.hist td,
-table.weakest th,
-table.weakest td {
-	border: 1px solid #555;
-	padding: 4px 6px;
-	font-size: 12px;
-	text-align: center;
-}
+
+/* Legacy non-material table styles removed; consolidate into table primitive if still needed */
 .spark {
 	display: flex;
 	align-items: flex-end;
-	gap: 2px;
+	gap: var(--space-1);
 	height: 60px;
-	margin: 12px 0;
-	padding: 4px;
-	background: #222;
-	border: 1px solid #444;
-	border-radius: 4px;
+	margin: var(--space-5) 0;
+	padding: var(--space-2);
+	background: var(--color-surface-alt-2);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
 }
+
 .spark span {
 	flex: 1;
 	display: block;
-	background: #4caf50;
+	background: var(--color-positive);
 	min-width: 2px;
 }
-.accuracy-series span { background: #2196f3; }
-.export-actions { display:flex; gap:8px; margin-top:12px; flex-wrap:wrap; }
+
+.accuracy-series span {
+	background: var(--color-accent);
+}
+
+.export-actions {
+	display: flex;
+	gap: 8px;
+	margin-top: 12px;
+	flex-wrap: wrap;
+}
+
 .action-trends {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 16px;
 	margin: 8px 0 16px;
 }
+
 .action-trend {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 }
+
 .action-trend label {
 	font-size: 12px;
 	font-weight: 600;
 	margin-bottom: 4px;
 }
+
 .mini-spark {
 	display: flex;
 	align-items: flex-end;
 	height: 40px;
 }
+
 .mini-spark span {
 	width: 3px;
-	background: #555;
+	background: var(--color-border);
 	margin-right: 1px;
 	display: inline-block;
 }
+
 .mini-spark span:last-child {
 	margin-right: 0;
 }
-button {
-	background: #444;
-	color: #fff;
-	border: none;
-	padding: 6px 12px;
-	border-radius: 4px;
-	cursor: pointer;
-}
-button:hover {
-	background: #666;
-}
+
+/* Export action buttons now use global .btn primitive classes */

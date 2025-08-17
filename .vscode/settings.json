@@ -1,0 +1,13 @@
+{
+    // Enforce Allman style (opening braces on new line) via formatter choices.
+    // Prettier does not natively support Allman; if switching to another formatter, configure it accordingly.
+    "editor.formatOnSave": true,
+    // "editor.defaultFormatter": "esbenp.prettier-vscode", // Commented out: extension not listed in current environment schema
+    "prettier.printWidth": 100,
+    "prettier.bracketSameLine": false,
+    "prettier.arrowParens": "always",
+    "prettier.singleQuote": true,
+    // NOTE: Prettier cannot move braces to a new line for control blocks; manual adherence + future linter needed.
+    // Consider adding ESLint with a custom rule if stricter automated enforcement becomes necessary.
+    "files.eol": "\n"
+}

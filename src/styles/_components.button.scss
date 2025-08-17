@@ -1,0 +1,67 @@
+/* Button Primitive */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    font: inherit;
+    font-weight: 500;
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    border: 1px solid transparent;
+    cursor: pointer;
+    background: var(--color-border);
+    color: var(--color-text);
+    text-decoration: none;
+    transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.btn:hover {
+    background: var(--color-border-strong);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.btn:disabled {
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* Variants */
+.btn--primary {
+    background: var(--color-accent);
+    color: var(--color-text);
+}
+
+.btn--primary:hover {
+    background: color-mix(in srgb, var(--color-accent) 85%, black);
+}
+
+.btn--danger {
+    background: var(--color-negative);
+}
+
+.btn--danger:hover {
+    background: color-mix(in srgb, var(--color-negative) 85%, black);
+}
+
+.btn--ghost {
+    background: transparent;
+    border-color: var(--color-border);
+}
+
+.btn--ghost:hover {
+    background: var(--color-surface-alt);
+}
+
+/* Icon / square variant */
+.btn--icon {
+    padding: var(--space-2) var(--space-3);
+    line-height: 1;
+    aspect-ratio: 1 / 1;
+    display: inline-flex;
+    justify-content: center;
+    font-weight: 600;
+}

@@ -1,0 +1,48 @@
+/* Color Tokens */
+:root {
+    /* Color roles */
+    --color-bg-app: #0d1319;
+    /* main app background */
+    --color-surface: #15212c;
+    /* elevated surface (tables, cards) */
+    --color-surface-alt: #20303d;
+    /* header / navigation background */
+    --color-surface-alt-2: #222222;
+    /* legacy nav / spark bg (migrate) */
+    --color-surface-card: #192632;
+    /* card surface (lighter than primary surface, darker than alt) */
+    --color-border: #444444;
+    --color-border-strong: #2f3d4a;
+    --color-text: #ffffff;
+    --color-text-strong: #f1f6f9;
+    --color-text-muted: #e8edf1f0;
+    /* increased opacity for better contrast */
+    --color-text-subtle: #e8edf199;
+    /* optional subtler text (avoid for body copy; reserve for secondary meta) */
+    --color-text-inverse: #111111;
+    /* readable text on light action backgrounds (e.g., split tag) */
+    --color-focus-ring: #ffffff;
+    --color-positive: #43a047;
+    --color-negative: #d32f2f;
+    --color-accent: #2196f3;
+    --color-accent-light: #90caf9;
+    /* lighter accent for links on dark bg */
+    --color-hint: #ffeb3b;
+    --color-surface-overlay: rgba(255, 255, 255, 0.06);
+    /* subtle overlay for list items on dark surfaces */
+    --color-overlay-scrim: rgba(0, 0, 0, 0.55);
+    /* modal/dialog backdrop */
+    /* Action semantic colors */
+    --color-action-hit: #ef5350;
+    --color-action-stand: #2e7d32;
+    --color-action-double: #1e88e5;
+    --color-action-split: #ff9800;
+    --color-action-surrender: #8e24aa;
+
+    /* Table specific roles */
+    --table-border-color: var(--color-border-strong);
+    --table-row-hover: #293847;
+    --table-row-alt: #1c2b36;
+    --table-header-bg: var(--color-surface-alt);
+    --table-header-color: var(--color-text-strong);
+}

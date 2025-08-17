@@ -56,7 +56,7 @@ describe('ShortcutHelpDialogComponent', () => {
     component.show();
     setTimeout(() => {
       // Move focus to the close button (only tabbable element)
-      const btn = document.querySelector('.close-btn') as HTMLElement | null;
+      const btn = document.querySelector('.dialog-actions .btn') as HTMLElement | null;
       expect(btn).toBeTruthy();
       btn?.focus();
       expect(document.activeElement).toBe(btn);

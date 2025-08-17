@@ -1,0 +1,46 @@
+/* Action Tag Primitive (BEM) */
+.action-tag {
+    display: inline-block;
+    min-width: 1.6rem;
+    text-align: center;
+    padding: .25rem .5rem;
+    border-radius: var(--radius-sm, .4rem);
+    font-weight: 600;
+    font-size: .85rem;
+    line-height: 1;
+    color: var(--color-text);
+    user-select: none;
+    outline: none;
+}
+
+.action-tag:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 2px;
+}
+
+.action-tag--stand {
+    background: var(--color-action-stand);
+}
+
+.action-tag--hit {
+    background: var(--color-action-hit);
+    /* Contrast: background luminance too high for white text (≈3.5:1); use dark text */
+    color: var(--color-text-inverse);
+}
+
+.action-tag--double {
+    background: var(--color-action-double);
+    /* Contrast: improve ratio by switching to inverse (dark) text */
+    color: var(--color-text-inverse);
+}
+
+.action-tag--split {
+    background: var(--color-action-split);
+    color: var(--color-text-inverse);
+}
+
+.action-tag--surrender {
+    background: var(--color-action-surrender);
+}
+
+/* Legacy helper classes removed (migrated to .action-tag modifiers) */

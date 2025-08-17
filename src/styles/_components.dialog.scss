@@ -1,0 +1,53 @@
+/* Dialog Primitive (lightweight, non-Material)
+   Provides base styling for inline modal/dialog surfaces like shortcut help. */
+.dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    background: var(--color-overlay-scrim);
+    z-index: 1000;
+}
+
+.dialog-surface {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-surface);
+    color: var(--color-text);
+    padding: 1.4rem 1.6rem 1.8rem;
+    width: 340px;
+    max-width: 92%;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--elevation-2);
+    z-index: 1001;
+}
+
+.dialog-surface:focus {
+    outline: none;
+}
+
+.dialog-surface h2 {
+    margin-top: 0;
+    font-size: 1.15rem;
+    letter-spacing: .6px;
+}
+
+.dialog-surface kbd {
+    background: var(--color-surface-alt);
+    padding: 2px 6px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    font-size: .75rem;
+}
+
+.dialog-surface .dialog-actions {
+    margin-top: .6rem;
+}
+
+.dialog-surface .dialog-actions .btn:focus-visible {
+    outline: 2px solid var(--color-focus-ring);
+    outline-offset: 3px;
+}
+
+/* TODO: entrance animation using motion tokens */

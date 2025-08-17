@@ -2,26 +2,182 @@
 
 .main-nav {
 	display: flex;
-	gap: 12px;
-	background: #222;
-	padding: 8px 16px;
+	gap: var(--space-4);
+	/* 12px */
+	background: var(--color-surface-alt-2);
+	/* legacy nav bg (#222) mapped to token */
+	padding: var(--space-3) var(--space-5);
+	/* 8px 16px */
 }
 
 .main-nav a {
-	color: #eee;
+	color: var(--color-text);
+	/* #eee approximated by text color */
 	text-decoration: none;
-	padding: 4px 10px;
-	border-radius: 4px;
-	font-size: 14px;
+	padding: var(--space-2) calc(var(--space-3) + var(--space-1));
+	/* 4px 10px */
+	border-radius: var(--radius-sm);
+	font-size: var(--font-size-base);
+	transition: background-color var(--transition-fast) ease-in-out;
 }
 
 .main-nav a.active,
 .main-nav a:hover {
-	background: #424242;
+	/* Using existing surface alt token instead of introducing a new hover token for now */
+	background: var(--color-surface-alt);
 }
 
 .view-container {
-	padding: 16px;
+	padding: var(--space-5);
+	/* 16px */
 }
 
 // ...existing code...
+
+/* App header & navigation (migrated from inline template styles) */
+.app-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 1.25rem;
+	height: 66px;
+	background: linear-gradient(90deg, color-mix(in srgb, var(--color-surface-alt) 85%, black) 0%, var(--color-surface-alt) 55%, color-mix(in srgb, var(--color-surface-alt) 70%, black) 100%);
+	color: var(--color-text);
+	box-shadow: 0 4px 10px -3px rgba(0, 0, 0, 0.7);
+}
+
+.app-header .brand {
+	display: flex;
+	align-items: center;
+	gap: .8rem;
+}
+
+.app-header .logo {
+	width: 46px;
+	height: 46px;
+	border-radius: var(--radius-lg);
+	background: linear-gradient(135deg, #ff8a00, #e52e71);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-weight: 700;
+	font-size: 19px;
+	letter-spacing: .6px;
+	box-shadow: 0 4px 12px -3px rgba(0, 0, 0, .6);
+}
+
+.app-header h1 {
+	font-size: 1.26rem;
+	letter-spacing: .55px;
+	margin: 0;
+	font-weight: 660;
+	color: var(--color-text);
+	text-shadow: 0 1px 3px rgba(0, 0, 0, .55);
+}
+
+.app-header h1 a.home-link {
+	color: inherit;
+	text-decoration: none;
+	display: inline-block;
+	padding: 4px 2px;
+	border-radius: var(--radius-sm);
+}
+
+.app-header h1 a.home-link:focus-visible {
+	outline: 2px solid var(--color-focus-ring);
+	outline-offset: 3px;
+}
+
+.app-header h1 a.home-link:hover {
+	text-decoration: underline;
+}
+
+.app-header .variant {
+	display: block;
+	font-size: .72rem;
+	margin-top: 2px;
+	color: var(--color-text-muted);
+}
+
+.top-nav {
+	display: flex;
+	gap: .35rem;
+}
+
+.top-nav a {
+	position: relative;
+	padding: .6rem .95rem;
+	border-radius: 9px;
+	color: var(--color-text-muted);
+	text-decoration: none;
+	font-weight: 540;
+	font-size: .92rem;
+	letter-spacing: .35px;
+	transition: background var(--transition-base), color var(--transition-base);
+}
+
+.top-nav a:hover,
+.top-nav a.active {
+	background: rgba(255, 255, 255, .18);
+	color: var(--color-text);
+}
+
+.top-nav a:focus-visible {
+	outline: 2px solid var(--color-focus-ring);
+	outline-offset: 3px;
+	box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+.top-nav .shortcuts-btn {
+	border: 1px solid var(--color-border);
+}
+
+.layout {
+	min-height: calc(100vh - 66px);
+	background: linear-gradient(150deg, color-mix(in srgb, var(--color-bg-app) 85%, black) 0%, var(--color-bg-app) 55%, color-mix(in srgb, var(--color-surface) 75%, black) 100%);
+}
+
+.main-view {
+	padding: 1.4rem 1.75rem;
+	overflow: auto;
+	color: var(--color-text);
+	font-size: 1.02rem;
+	line-height: 1.6;
+	max-width: 1220px;
+	margin: 0 auto;
+}
+
+.shortcuts {
+	font-size: .8rem;
+	opacity: .9;
+	margin: 0 0 12px;
+	color: var(--color-text-muted);
+	background: rgba(255, 255, 255, .08);
+	padding: 4px 8px;
+	border-radius: var(--radius-sm);
+}
+
+/* Accessibility helpers originally inline */
+.skip-link {
+	position: absolute;
+	left: -999px;
+	top: 4px;
+	background: var(--color-text);
+	color: var(--color-text-inverse);
+	padding: 8px 12px;
+	border-radius: var(--radius-sm);
+	font-weight: 600;
+	z-index: 1000;
+	box-shadow: 0 2px 6px rgba(0, 0, 0, .4);
+}
+
+.skip-link:focus {
+	left: 8px;
+	outline: 3px solid var(--color-focus-ring);
+}
+
+@media (max-width: 900px) {
+	.shortcuts {
+		display: block;
+	}
+}
