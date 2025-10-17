@@ -27,6 +27,44 @@
 	background: var(--color-surface-alt);
 }
 
+// Ad container styles
+.ad-container {
+	display: block;
+	width: 100%;
+	max-width: 970px;
+	margin: var(--space-md) auto;
+	text-align: center;
+	overflow: hidden;
+	min-height: 90px;
+
+	// Add a subtle background color in development
+	&:empty {
+		background: var(--color-surface-alt-2);
+		opacity: 0.3;
+
+		// Only show in development
+		@media (min-width: 768px) {
+			&::after {
+				content: 'Ad placeholder (not shown in development)';
+				font-size: var(--font-size-sm);
+				opacity: 0.6;
+				display: flex;
+				height: 100%;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+	}
+
+	&--top {
+		margin-top: 0;
+	}
+
+	&--bottom {
+		margin-bottom: var(--space-lg);
+	}
+}
+
 .view-container {
 	padding: var(--space-5);
 	/* 16px */

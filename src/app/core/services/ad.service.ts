@@ -37,6 +37,40 @@ export class AdService {
         script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${environment.adClient}`;
         script.crossOrigin = 'anonymous';
         document.head.appendChild(script);
+
+        // When script loads, add global ads to the page
+        script.onload = () => {
+            this.insertGlobalAds();
+        };
+    }
+
+    /**
+     * Insert global ads in specific locations on the page
+     * This allows ads to be present on all pages
+     */
+    insertGlobalAds(): void {
+        // Skip in local development
+        if (!environment.adsEnabled || this.isLocalhost()) {
+            return;
+        }
+
+        // Create container for global ad
+        const adContainer = document.createElement('div');
+        adContainer.className = 'global-ad-container';
+        adContainer.style.margin = '20px auto';
+        adContainer.style.textAlign = 'center';
+        adContainer.style.maxWidth = '100%';
+        adContainer.style.overflow = 'hidden';
+
+        // Find the right location for the ad - after app-root
+        const appRoot = document.querySelector('app-root');
+        if (appRoot) {
+            // Insert ad after app-root
+            appRoot.parentNode?.insertBefore(adContainer, appRoot.nextSibling);
+
+            // Display ad in this container
+            this.displayAd('5096598407', adContainer);
+        }
     }
 
     /**

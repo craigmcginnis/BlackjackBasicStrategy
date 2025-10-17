@@ -36,7 +36,15 @@
 		<div class="shortcuts" *ngIf="showShortcuts()" aria-label="Keyboard shortcuts">
 			<strong>Shortcuts:</strong> H S D P R
 		</div>
+
+		<!-- Top ad slot - visible on all pages -->
+		<div class="ad-container ad-container--top" id="top-ad-slot"></div>
+
 		<router-outlet />
+
+		<!-- Bottom ad slot - visible on all pages -->
+		<div class="ad-container ad-container--bottom" id="bottom-ad-slot"></div>
+
 		<app-shortcut-help-dialog [visible]="helpOpen()" (closed)="closeShortcutHelp()"></app-shortcut-help-dialog>
 	</main>
 </div>

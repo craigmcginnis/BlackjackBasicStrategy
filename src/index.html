@@ -65,7 +65,18 @@
 
 <body>
 	<app-root></app-root>
-	<!-- AdSense ads are now managed by the AdService -->
+	<!-- Global AdSense initialization -->
+	<script>
+		// Only initialize ads in production environment
+		if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+			// AdSense auto ads code (optional additional ads managed by Google)
+			const autoAdsScript = document.createElement('script');
+			autoAdsScript.setAttribute('data-ad-client', 'ca-pub-4882802716055614');
+			autoAdsScript.async = true;
+			autoAdsScript.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js';
+			document.head.appendChild(autoAdsScript);
+		}
+	</script>
 </body>
 
 </html>

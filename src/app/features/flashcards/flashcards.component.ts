@@ -5,12 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { STRATEGY_DATA } from '../../core/services/strategy.data';
 import { STORAGE_FACADE } from '../../core/services/storage.service';
 import { IStorageFacade, FlashItem } from '../../core/models';
-import { AdDisplayComponent } from '../../shared/ad-display/ad-display.component';
 
 @Component({
 	selector: 'app-flashcards',
 	standalone: true,
-	imports: [CommonModule, MatCardModule, MatButtonModule, AdDisplayComponent],
+	imports: [CommonModule, MatCardModule, MatButtonModule],
 	templateUrl: './flashcards.component.html',
 	styleUrls: ['./flashcards.component.scss']
 })
