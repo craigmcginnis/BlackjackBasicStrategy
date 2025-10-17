@@ -1,0 +1,13 @@
+.ad-container {
+    display: block;
+    margin: var(--space-md) 0;
+    min-height: 90px;
+    width: 100%;
+    overflow: hidden;
+    text-align: center;
+
+    // Add placeholder styling for dev environment
+    &:empty {
+        display: none;
+    }
+}
