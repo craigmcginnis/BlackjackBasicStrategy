@@ -162,6 +162,35 @@ See `style.instructions.md` for repository-wide guidance. When prompting Copilot
 * Transition to Angular Material design tokens for color roles where possible rather than separate app tokens.
 * Consider CSS `@layer` to encapsulate utilities vs component styles to control cascade order.
 
+## SEO & Accessibility Improvements
+
+The following SEO and accessibility improvements have been implemented:
+
+### SEO Service
+- Added `SEOService` to manage dynamic meta tags and canonical URLs
+- Each route component should inject SEOService and set appropriate metadata in OnInit
+- All route components should have proper title, description, and canonical URLs
+
+### Image Optimization
+- Added `OptimizedImageDirective` to ensure all images have appropriate attributes:
+  - Proper alt text (required for SEO and accessibility)
+  - loading="lazy" for images below the fold
+  - decoding="async" for performance
+
+### Metadata Assets
+- Added sitemap.xml and robots.txt for search engine crawling
+- Updated manifest.webmanifest with more comprehensive app metadata
+- Added structured data (JSON-LD) for rich search results
+
+### Component Migration Checklist
+- [x] Base HTML metadata in index.html
+- [ ] Home component
+- [ ] Strategy Chart component
+- [ ] Drill component
+- [ ] Flashcards component
+- [ ] Settings component
+- [ ] Analytics component
+
 ---
 Maintainer: (add name)
-Last Updated: 2025-08-17
+Last Updated: 2025-10-17

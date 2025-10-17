@@ -1,12 +1,53 @@
 {
-	"name": "Blackjack Trainer",
-	"short_name": "Trainer",
-	"start_url": ".",
+	"name": "Blackjack Basic Strategy Trainer",
+	"short_name": "Blackjack Trainer",
+	"start_url": "/",
+	"scope": "/",
 	"display": "standalone",
 	"background_color": "#0d1319",
 	"theme_color": "#152430",
 	"description": "Learn optimal blackjack basic strategy with drills, flashcards, spaced repetition and analytics.",
+	"categories": [
+		"education",
+		"games",
+		"casino"
+	],
+	"screenshots": [
+		{
+			"src": "assets/screenshots/strategy-chart.png",
+			"sizes": "1280x720",
+			"type": "image/png",
+			"description": "Strategy chart view"
+		},
+		{
+			"src": "assets/screenshots/drill-mode.png",
+			"sizes": "1280x720",
+			"type": "image/png",
+			"description": "Interactive drill mode"
+		}
+	],
 	"icons": [
-		{ "src": "favicon.ico", "sizes": "64x64 32x32 24x24 16x16", "type": "image/x-icon" }
+		{
+			"src": "favicon.ico",
+			"sizes": "64x64 32x32 24x24 16x16",
+			"type": "image/x-icon"
+		},
+		{
+			"src": "assets/icons/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "assets/icons/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any"
+		},
+		{
+			"src": "assets/icons/apple-touch-icon.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		}
 	]
 }
