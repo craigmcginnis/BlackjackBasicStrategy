@@ -1,59 +1,107 @@
-# BlackjackTrainer
+# Blackjack Basic Strategy Trainer
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.1.5.
+An Angular application designed to help users learn and practice optimal blackjack strategy through interactive drills, flashcards, and strategy charts.
 
-## Development server
+[![Angular](https://img.shields.io/badge/Built%20with-Angular%2020-DD0031)](https://angular.dev/)
+[![TypeScript](https://img.shields.io/badge/Language-TypeScript-3178C6)](https://www.typescriptlang.org/)
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-To start a local development server, run:
+![Blackjack Basic Strategy Trainer Screenshot](src/assets/screenshots/app-preview.png)
 
-```bash
-ng serve
-```
+## Features
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+- **Strategy Charts**: Visual representation of optimal blackjack decisions based on your hand and the dealer's up card
+- **Interactive Drills**: Practice making the right decision in randomly generated scenarios
+- **Flashcard System**: Spaced repetition learning with SM-2 inspired algorithm for efficient memorization
+- **Customizable Rules**: Support for different rule variations:
+  - Dealer hits/stands on soft 17 (H17/S17)
+  - Double after split (DAS)
+  - Late surrender option
+  - Multiple deck configurations (1-8 decks)
+- **Performance Analytics**: Track your progress with detailed statistics on your weakest scenarios and decision trends
+- **Keyboard Shortcuts**: Fast gameplay with keyboard controls (H, S, D, P, R) for Hit, Stand, Double, sPlit, and suRrender
+- **Progressive Web App**: Fully offline capable with local storage for progress tracking
+- **Accessibility Features**: WCAG compliant with keyboard navigation, ARIA attributes, and focus management
 
-## Code scaffolding
+## Getting Started
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Prerequisites
 
-```bash
-ng generate component component-name
-```
+- Node.js (v16+)
+- npm (v8+)
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+### Installation
 
 ```bash
-ng test
+# Clone the repository
+git clone https://github.com/craigmcginnis/BlackjackBasicStrategy.git
+
+# Navigate to project directory
+cd BlackjackBasicStrategy
+
+# Install dependencies
+npm install
 ```
 
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
+### Development
 
 ```bash
-ng e2e
+# Start development server
+npm start
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Visit `http://localhost:4200/` in your browser. The application will automatically reload when you make changes to the source files.
 
-## Additional Resources
+### Building for Production
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```bash
+# Build optimized production version
+npm run build:prod
+
+# Preview production build
+npm run preview
+```
+
+### Testing
+
+```bash
+# Run unit tests
+npm test
+
+# Run tests in CI mode with code coverage
+npm run test:ci
+```
+
+## Project Structure
+
+- `src/app/core/` - Core services, models, and directives
+- `src/app/features/` - Feature modules (drill, flashcards, strategy chart, settings, analytics)
+- `src/styles/` - Global design tokens and styling utilities
+- `src/assets/` - Static assets like images and icons
+
+## Design Approach
+
+This project follows a design token approach with BEM naming conventions for components. See [STYLE-MIGRATION.md](STYLE-MIGRATION.md) for detailed styling guidelines and the token system.
+
+## Development Status
+
+See [CHANGELOG.md](CHANGELOG.md) for release history and [SDLC.md](SDLC.md) for development roadmap.
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- [The Wizard of Odds](https://wizardofodds.com/games/blackjack/strategy/calculator/) for blackjack strategy calculations
+- Angular team for their excellent framework and tools
