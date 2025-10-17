@@ -2,7 +2,8 @@ import { Component, computed, signal, effect, inject } from '@angular/core';
 import { CommonModule, DatePipe, DecimalPipe } from '@angular/common';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
-import { STORAGE_FACADE, SessionStatEntry, IStorageFacade } from '../../core/services/storage.service';
+import { STORAGE_FACADE } from '../../core/services/storage.service';
+import { SessionStatEntry, IStorageFacade } from '../../core/models';
 import { AnalyticsMetricsService } from '../../core/services/analytics-metrics.service';
 
 @Component({

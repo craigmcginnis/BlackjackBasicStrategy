@@ -1,25 +1,36 @@
 <a class="skip-link" href="#maincontent">Skip to main content</a>
 <header class="app-header" role="banner">
 	<div class="brand">
-		<div class="logo" aria-hidden="true">BJ</div>
+		<button class="menu-button" (click)="toggleMenu()" aria-label="Toggle navigation menu"
+			[attr.aria-expanded]="menuOpen()">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+				stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<line x1="4" y1="12" x2="20" y2="12"></line>
+				<line x1="4" y1="6" x2="20" y2="6"></line>
+				<line x1="4" y1="18" x2="20" y2="18"></line>
+			</svg>
+		</button>
 		<div class="title">
 			<h1><a routerLink="/" class="home-link" aria-label="Go to home">Blackjack Trainer</a></h1>
 			<small class="variant" aria-live="polite">Learning Mode</small>
 		</div>
 	</div>
-	<nav class="top-nav" aria-label="Primary">
-		<a routerLink="/chart" routerLinkActive="active">Chart</a>
-		<a routerLink="/drill" routerLinkActive="active">Drill</a>
-		<a routerLink="/flashcards" routerLinkActive="active">Flashcards</a>
-		<a routerLink="/analytics" routerLinkActive="active">Analytics</a>
-		<a routerLink="/settings" routerLinkActive="active">Settings</a>
+	<div class="header-actions">
 		<button type="button" class="btn btn--ghost btn--icon shortcuts-btn"
 			(click)="helpOpen() ? closeShortcutHelp() : openShortcutHelp()" aria-haspopup="dialog"
 			[attr.aria-expanded]="helpOpen()" aria-controls="shortcut-help-dialog"
 			aria-label="Keyboard shortcuts help">?</button>
-	</nav>
-	<div class="header-actions"></div>
+	</div>
 </header>
+<nav class="mobile-nav" [class.open]="menuOpen()" aria-label="Primary">
+	<div class="mobile-nav__content">
+		<a routerLink="/chart" routerLinkActive="active" (click)="toggleMenu()">Chart</a>
+		<a routerLink="/drill" routerLinkActive="active" (click)="toggleMenu()">Drill</a>
+		<a routerLink="/flashcards" routerLinkActive="active" (click)="toggleMenu()">Flashcards</a>
+		<a routerLink="/analytics" routerLinkActive="active" (click)="toggleMenu()">Analytics</a>
+		<a routerLink="/settings" routerLinkActive="active" (click)="toggleMenu()">Settings</a>
+	</div>
+</nav>
 <div class="layout">
 	<main class="main-view" id="maincontent" role="main">
 		<div class="shortcuts" *ngIf="showShortcuts()" aria-label="Keyboard shortcuts">

@@ -26,9 +26,12 @@
     --color-negative: #d32f2f;
     --color-accent: #2196f3;
     --color-accent-light: #90caf9;
+    --color-accent-hover: #26a1f888;
+    --color-accent-light-hover: #95cfff88;
+
     /* lighter accent for links on dark bg */
     --color-hint: #ffeb3b;
-    --color-surface-overlay: rgba(255, 255, 255, 0.06);
+    --color-surface-overlay: #ffffff0f;
     /* subtle overlay for list items on dark surfaces */
     --color-overlay-scrim: rgba(0, 0, 0, 0.55);
     /* modal/dialog backdrop */
@@ -45,4 +48,7 @@
     --table-row-alt: #1c2b36;
     --table-header-bg: var(--color-surface-alt);
     --table-header-color: var(--color-text-strong);
+
+    --table-gradient-start: #006608;
+    --table-gradient-end: #336338;
 }

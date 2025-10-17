@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AnalyticsComponent } from './analytics.component';
-import { STORAGE_FACADE, AggregatedStats, IStorageFacade, SessionStatEntry } from '../../core/services/storage.service';
+import { STORAGE_FACADE } from '../../core/services/storage.service';
+import { AggregatedStats, IStorageFacade, SessionStatEntry } from '../../core/models';
 
 class MockStorageFacade implements IStorageFacade {
 	private stats: AggregatedStats = { history: [] };
@@ -17,12 +18,12 @@ class MockStorageFacade implements IStorageFacade {
 	loadMastery() {
 		return {};
 	}
-	saveMastery(_m: Record<string, number>) {}
-	incrementMastery(_k: string) {}
+	saveMastery(_m: Record<string, number>) { }
+	incrementMastery(_k: string) { }
 	loadSrs() {
 		return {};
 	}
-	saveSrs(_m: any) {}
+	saveSrs(_m: any) { }
 	updateSrsOnAnswer() {
 		return {
 			consecutive: 0,
@@ -37,12 +38,12 @@ class MockStorageFacade implements IStorageFacade {
 	loadRuleSet() {
 		return null;
 	}
-	saveRuleSet(_r: any) {}
+	saveRuleSet(_r: any) { }
 	getStreaks() {
 		return { current: 3, best: 7 };
 	}
 	loadDifficulty() { return this.difficulty; }
-	saveDifficulty(l: 'HARD_TOTALS'|'SOFT_TOTALS'|'PAIRS'|'ALL') { this.difficulty = l; }
+	saveDifficulty(l: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL') { this.difficulty = l; }
 }
 
 describe('AnalyticsComponent', () => {

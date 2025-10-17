@@ -1,7 +1,7 @@
 <mat-card *ngIf="current">
-	<div class="table vertical">
+	<div class="table blackjack-table vertical">
 		<div class="dealer stack">
-			<h2>Dealer</h2>
+			<h2 class="centered">Dealer</h2>
 			<div class="cards">
 				<div class="card" [attr.data-rank]="current.dealerUp.rank" [attr.data-suit]="current.dealerUp.suit">
 					{{ current.dealerUp.rank }}
@@ -10,7 +10,7 @@
 			</div>
 		</div>
 		<div class="player stack u-stack-spaced">
-			<h2>Player</h2>
+			<h2 class="centered">Player</h2>
 			<div class="cards">
 				<div class="card" *ngFor="let c of current.playerCards" [attr.data-rank]="c.rank"
 					[attr.data-suit]="c.suit">{{ c.rank }}</div>

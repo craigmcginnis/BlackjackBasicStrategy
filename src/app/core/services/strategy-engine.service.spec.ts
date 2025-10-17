@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StrategyEngineService } from './strategy-engine.service';
-import { RuleSet } from '../models/blackjack.models';
+import { RuleSet } from '../models';
 
 const baseRules = (over: Partial<RuleSet> = {}): RuleSet => ({
 	id: 't',

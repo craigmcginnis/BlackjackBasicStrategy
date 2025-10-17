@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { AnalyticsMetricsService } from './analytics-metrics.service';
-import { SessionStatEntry } from './storage.service';
+import { SessionStatEntry } from '../models';
 
 describe('AnalyticsMetricsService', () => {
 	let svc: AnalyticsMetricsService;

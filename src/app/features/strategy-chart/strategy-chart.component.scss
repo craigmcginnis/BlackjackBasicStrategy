@@ -71,6 +71,15 @@
 	display: block;
 }
 
+.dealer-header {
+	background-color: var(--color-surface-alt);
+	font-size: var(--font-sm);
+	text-align: center;
+	font-weight: 500;
+	color: var(--color-text-strong);
+	padding: var(--space-1) var(--space-2);
+}
+
 @media (min-width: 1000px) {
 	.sections {
 		display: grid;

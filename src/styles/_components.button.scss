@@ -9,14 +9,15 @@
     border-radius: var(--radius-sm);
     border: 1px solid transparent;
     cursor: pointer;
-    background: var(--color-border);
+    //background: var(--color-border);
+    background-image: radial-gradient(var(--color-accent-light), var(--color-accent));
     color: var(--color-text);
     text-decoration: none;
     transition: background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
 .btn:hover {
-    background: var(--color-border-strong);
+    background-image: radial-gradient(var(--color-accent-hover), var(--color-accent-light-hover));
 }
 
 .btn:focus-visible {
@@ -31,12 +32,7 @@
 
 /* Variants */
 .btn--primary {
-    background: var(--color-accent);
     color: var(--color-text);
-}
-
-.btn--primary:hover {
-    background: color-mix(in srgb, var(--color-accent) 85%, black);
 }
 
 .btn--danger {

@@ -16,8 +16,8 @@ import { StorageService } from '../../core/services/storage.service';
 export class StrategyChartComponent {
 	dealerValues = [2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 	hardColumns: string[] = ['label'];
-	 softColumns: string[] = ['label'];
-	 pairColumns: string[] = ['label'];
+	softColumns: string[] = ['label'];
+	pairColumns: string[] = ['label'];
 	hardDisplay: { label: string; totals: number[] }[] = [];
 	// Group pairs with identical patterns: (2,3), (4) (since 4's strategy differs), (5) (treated as 10), (6), (7), (8), (9), (10), (A)
 	pairDisplay = [
@@ -69,6 +69,7 @@ export class StrategyChartComponent {
 		// initial build for default tables
 		this.rebuildHardGroups();
 		// initialize other column arrays (dealerValues static)
+		this.hardColumns = ['label', ...this.dealerValues.map(d => 'd' + d)];
 		this.softColumns = ['label', ...this.dealerValues.map(d => 'd' + d)];
 		this.pairColumns = ['label', ...this.dealerValues.map(d => 'd' + d)];
 	}

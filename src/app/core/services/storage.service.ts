@@ -1,5 +1,15 @@
 import { Injectable, signal, InjectionToken } from '@angular/core';
-import { RuleSet } from '../models/blackjack.models';
+import {
+	RuleSet,
+	SessionStatEntry,
+	AggregatedStats,
+	IStatsRepository,
+	IMasteryRepository,
+	SrsEntry,
+	ISrsRepository,
+	IRuleSetRepository,
+	IStorageFacade
+} from '../models';
 
 const SETTINGS_KEY = 'bj_settings_v1';
 const STATS_KEY = 'bj_stats_v1';
@@ -8,59 +18,6 @@ const SRS_KEY = 'bj_srs_v1';
 const DIFFICULTY_KEY = 'bj_difficulty_v1';
 const CUSTOM_RULES_KEY = 'bj_custom_rules_v1';
 
-export interface SessionStatEntry {
-	ts: number;
-	mode: 'drill' | 'flash';
-	correct: number;
-	attempts: number;
-	expected?: string;
-	chosen?: string;
-	scenario?: string;
-	ms?: number;
-	usedHint?: boolean;
-	// Optional difficulty tier for drill sessions (EASY|MEDIUM|HARD). Added later; absent for historical entries.
-	difficulty?: string;
-}
-export interface AggregatedStats {
-	history: SessionStatEntry[];
-}
-
-// Repository abstractions for future backend swap
-export interface IStatsRepository {
-	loadStats(): AggregatedStats;
-	saveStats(stats: AggregatedStats): void;
-	recordSession(entry: SessionStatEntry): void;
-}
-export interface IMasteryRepository {
-	loadMastery(): Record<string, number>;
-	saveMastery(map: Record<string, number>): void;
-	incrementMastery(scenario: string): void;
-}
-export interface SrsEntry {
-	consecutive: number;
-	intervalIndex: number;
-	nextDue: number;
-	ef: number;
-	reviewCount: number;
-	lastInterval: number;
-	lapses?: number;
-}
-export interface ISrsRepository {
-	loadSrs(): Record<string, SrsEntry>;
-	saveSrs(map: Record<string, SrsEntry>): void;
-	updateSrsOnAnswer(key: string, correct: boolean): SrsEntry;
-}
-export interface IRuleSetRepository {
-	loadRuleSet(): RuleSet | null;
-	saveRuleSet(rules: RuleSet): void;
-}
-
-// Facade interface combining all repositories for convenient DI
-export interface IStorageFacade extends IStatsRepository, IMasteryRepository, ISrsRepository, IRuleSetRepository {
-	getStreaks(): { current: number; best: number };
-	loadDifficulty(): 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL';
-	saveDifficulty(level: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL'): void;
-}
 export const STORAGE_FACADE = new InjectionToken<IStorageFacade>('STORAGE_FACADE');
 
 @Injectable({ providedIn: 'root' })
@@ -161,7 +118,7 @@ export class StorageService implements IStatsRepository, IMasteryRepository, ISr
 				return this.difficultyCache as 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL';
 			}
 			// Backward compatibility: if no stored value, fall back to new default 'ALL'
-		} catch {}
+		} catch { }
 		this.difficultyCache = 'ALL';
 		return 'ALL';
 	}

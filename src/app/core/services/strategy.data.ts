@@ -1,10 +1,4 @@
-import { Decision } from '../models/blackjack.models';
-
-export interface StrategyTables {
-	hard: Record<number, Record<number, Decision>>;
-	soft: Record<string, Record<number, Decision>>;
-	pairs: Record<string, Record<number, Decision>>;
-}
+import { Decision, StrategyTables } from '../models';
 
 // Variants: (S17|H17) x (LS?) x (DAS?)
 export const STRATEGY_DATA: Record<string, StrategyTables> = {

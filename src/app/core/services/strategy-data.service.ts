@@ -1,11 +1,6 @@
 import { Injectable } from '@angular/core';
-import { STRATEGY_DATA, StrategyTables } from './strategy.data';
-import { RuleSet } from '../models/blackjack.models';
-
-export interface IStrategyProvider {
-	getTablesFor(rules: RuleSet): StrategyTables | undefined;
-	ruleKey(rules: RuleSet): string;
-}
+import { STRATEGY_DATA } from './strategy.data';
+import { RuleSet, IStrategyProvider, StrategyTables } from '../models';
 
 @Injectable({ providedIn: 'root' })
 export class StrategyDataService implements IStrategyProvider {

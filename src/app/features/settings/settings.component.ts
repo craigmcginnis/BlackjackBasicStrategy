@@ -8,7 +8,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { MatCardModule } from '@angular/material/card';
 import { FormsModule } from '@angular/forms';
-import { RuleSet } from '../../core/models/blackjack.models';
+import { RuleSet } from '../../core/models';
 import { StorageService } from '../../core/services/storage.service';
 
 @Component({

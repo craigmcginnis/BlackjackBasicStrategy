@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StrategyDataService } from './strategy-data.service';
-import { RuleSet } from '../models/blackjack.models';
+import { RuleSet } from '../models';
 import { STRATEGY_DATA } from './strategy.data';
 
 describe('StrategyDataService', () => {

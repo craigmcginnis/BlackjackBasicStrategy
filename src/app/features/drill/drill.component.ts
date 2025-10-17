@@ -5,8 +5,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { StrategyEngineService } from '../../core/services/strategy-engine.service';
 import { StrategyDataService } from '../../core/services/strategy-data.service';
-import { Decision, EvaluatedHand, RuleSet } from '../../core/models/blackjack.models';
-import { STORAGE_FACADE, IStorageFacade } from '../../core/services/storage.service';
+import { Decision, EvaluatedHand, RuleSet, IStorageFacade } from '../../core/models';
+import { STORAGE_FACADE } from '../../core/services/storage.service';
 
 @Component({
 	selector: 'app-drill',

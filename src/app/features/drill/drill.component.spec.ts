@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DrillComponent } from './drill.component';
-import { STORAGE_FACADE, IStorageFacade, SessionStatEntry } from '../../core/services/storage.service';
+import { STORAGE_FACADE } from '../../core/services/storage.service';
 import { StrategyEngineService } from '../../core/services/strategy-engine.service';
 import { StrategyDataService } from '../../core/services/strategy-data.service';
 import { Injectable } from '@angular/core';
-import { Decision, EvaluatedHand, RuleSet } from '../../core/models/blackjack.models';
+import { Decision, EvaluatedHand, RuleSet, IStorageFacade, SessionStatEntry } from '../../core/models';
 import { of } from 'rxjs';
 
 class MockStorage implements IStorageFacade {
@@ -12,17 +12,17 @@ class MockStorage implements IStorageFacade {
 	loadStats() {
 		return { history: [] };
 	}
-	saveStats(_s: any) {}
-	recordSession(_e: SessionStatEntry) {}
+	saveStats(_s: any) { }
+	recordSession(_e: SessionStatEntry) { }
 	loadMastery() {
 		return {};
 	}
-	saveMastery(_m: any) {}
-	incrementMastery(_k: string) {}
+	saveMastery(_m: any) { }
+	incrementMastery(_k: string) { }
 	loadSrs() {
 		return {};
 	}
-	saveSrs(_m: any) {}
+	saveSrs(_m: any) { }
 	updateSrsOnAnswer() {
 		return {
 			consecutive: 0,
@@ -37,12 +37,12 @@ class MockStorage implements IStorageFacade {
 	loadRuleSet() {
 		return null;
 	}
-	saveRuleSet(_r: RuleSet) {}
+	saveRuleSet(_r: RuleSet) { }
 	getStreaks() {
 		return { current: 0, best: 0 };
 	}
-	loadDifficulty(){ return this.difficulty; }
-	saveDifficulty(l: 'HARD_TOTALS'|'SOFT_TOTALS'|'PAIRS'|'ALL'){ this.difficulty = l; }
+	loadDifficulty() { return this.difficulty; }
+	saveDifficulty(l: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL') { this.difficulty = l; }
 }
 class MockEngine {
 	getDecision(_h: EvaluatedHand, _r: RuleSet): Decision {

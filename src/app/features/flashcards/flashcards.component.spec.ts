@@ -1,6 +1,7 @@
 import { TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FlashcardsComponent } from './flashcards.component';
 import { StorageService, STORAGE_FACADE } from '../../core/services/storage.service';
+import { SrsEntry } from '../../core/models';
 
 class MockStorageService {
 	mastery: Record<string, number> = {};
@@ -10,17 +11,17 @@ class MockStorageService {
 	incrementMastery(key: string) {
 		this.mastery[key] = (this.mastery[key] || 0) + 1;
 	}
-	recordSession() {}
+	recordSession() { }
 	loadSrs() { return {}; }
-	saveSrs() {}
-	updateSrsOnAnswer() { return { consecutive:0, intervalIndex:0, nextDue: Date.now(), ef:2.5, reviewCount:0, lastInterval:0 }; }
+	saveSrs() { }
+	updateSrsOnAnswer() { return { consecutive: 0, intervalIndex: 0, nextDue: Date.now(), ef: 2.5, reviewCount: 0, lastInterval: 0 }; }
 	loadStats() {
 		return { history: [] };
 	}
-	saveStats() {}
-	loadRuleSet(){ return null; }
-	saveRuleSet(){}
-	getStreaks(){ return { current:0, best:0 }; }
+	saveStats() { }
+	loadRuleSet() { return null; }
+	saveRuleSet() { }
+	getStreaks() { return { current: 0, best: 0 }; }
 }
 
 describe('FlashcardsComponent', () => {

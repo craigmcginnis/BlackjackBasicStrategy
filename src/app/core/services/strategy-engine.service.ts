@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Decision, EvaluatedHand, RuleSet } from '../models/blackjack.models';
+import { Decision, EvaluatedHand, RuleSet } from '../models';
 import { StrategyDataService } from './strategy-data.service';
 
 @Injectable({ providedIn: 'root' })
 export class StrategyEngineService {
-	constructor(private provider: StrategyDataService) {}
+	constructor(private provider: StrategyDataService) { }
 	getDecision(hand: EvaluatedHand, rules: RuleSet): Decision {
 		const tables = this.provider.getTablesFor(rules);
 		if (!tables) return 'HIT';

@@ -121,3 +121,7 @@
 .c-table-base {
     @extend .table;
 }
+
+.blackjack-table {
+    background: radial-gradient(var(--table-gradient-start), var(--table-gradient-end));
+}

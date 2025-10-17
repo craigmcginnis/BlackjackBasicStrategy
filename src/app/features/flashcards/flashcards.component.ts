@@ -3,16 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { STRATEGY_DATA } from '../../core/services/strategy.data';
-import { STORAGE_FACADE, IStorageFacade } from '../../core/services/storage.service';
-
-interface FlashItem {
-	label: string;
-	expected: string;
-	type: 'hard' | 'soft' | 'pair';
-	playerCards: { rank: string; value: number; suit: string }[];
-	dealerUp: { rank: string; value: number; suit: string };
-	key: string;
-}
+import { STORAGE_FACADE } from '../../core/services/storage.service';
+import { IStorageFacade, FlashItem } from '../../core/models';
 
 @Component({
 	selector: 'app-flashcards',

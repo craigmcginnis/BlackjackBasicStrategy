@@ -1,7 +1,7 @@
-import { IStorageFacade, AggregatedStats, SessionStatEntry, SrsEntry } from './storage.service';
+import { IStorageFacade, AggregatedStats, SessionStatEntry, SrsEntry } from '../models';
 
 class InMemoryStorageFacade implements IStorageFacade {
-  history: SessionStatEntry[] = [];  mastery: Record<string, number> = {}; srs: Record<string, SrsEntry> = {}; rules: any = null;
+  history: SessionStatEntry[] = []; mastery: Record<string, number> = {}; srs: Record<string, SrsEntry> = {}; rules: any = null;
   current = 0; best = 0;
   private difficulty: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL' = 'HARD_TOTALS';
   loadStats(): AggregatedStats { return { history: this.history }; }
@@ -13,14 +13,14 @@ class InMemoryStorageFacade implements IStorageFacade {
   }
   loadMastery(): Record<string, number> { return this.mastery; }
   saveMastery(map: Record<string, number>): void { this.mastery = map; }
-  incrementMastery(s: string): void { this.mastery[s] = (this.mastery[s]||0)+1; }
+  incrementMastery(s: string): void { this.mastery[s] = (this.mastery[s] || 0) + 1; }
   loadSrs(): Record<string, SrsEntry> { return this.srs; }
   saveSrs(map: Record<string, SrsEntry>): void { this.srs = map; }
   updateSrsOnAnswer(key: string, correct: boolean): SrsEntry {
     const now = Date.now();
     let e = this.srs[key];
-    if(!e) e = this.srs[key] = { consecutive:0, intervalIndex:0, nextDue: now, ef:2.5, reviewCount:0, lastInterval:0 } as SrsEntry;
-    if(correct){
+    if (!e) e = this.srs[key] = { consecutive: 0, intervalIndex: 0, nextDue: now, ef: 2.5, reviewCount: 0, lastInterval: 0 } as SrsEntry;
+    if (correct) {
       e.reviewCount++; e.consecutive++; e.lastInterval = e.lastInterval ? Math.round(e.lastInterval * e.ef) || 60000 : 300000; // simple growth
       e.nextDue = now + e.lastInterval;
     } else { e.consecutive = 0; e.reviewCount = 0; e.lastInterval = 0; e.nextDue = now + 30000; e.ef = Math.max(1.3, e.ef - 0.1); }
@@ -29,18 +29,18 @@ class InMemoryStorageFacade implements IStorageFacade {
   loadRuleSet(): any { return this.rules; }
   saveRuleSet(r: any): void { this.rules = r; }
   getStreaks(): { current: number; best: number } { return { current: this.current, best: this.best }; }
-  loadDifficulty(){ return this.difficulty; }
-  saveDifficulty(l: 'HARD_TOTALS'|'SOFT_TOTALS'|'PAIRS'|'ALL'){ this.difficulty = l; }
+  loadDifficulty() { return this.difficulty; }
+  saveDifficulty(l: 'HARD_TOTALS' | 'SOFT_TOTALS' | 'PAIRS' | 'ALL') { this.difficulty = l; }
 }
 
 describe('InMemoryStorageFacade mock', () => {
   let mock: InMemoryStorageFacade;
-  beforeEach(()=> { mock = new InMemoryStorageFacade(); });
+  beforeEach(() => { mock = new InMemoryStorageFacade(); });
 
   it('tracks streaks and best streak', () => {
-    mock.recordSession({ ts:1, mode:'drill', correct:1, attempts:1 });
-    mock.recordSession({ ts:2, mode:'drill', correct:1, attempts:1 }); // streak 2
-    mock.recordSession({ ts:3, mode:'drill', correct:0, attempts:1 }); // reset
+    mock.recordSession({ ts: 1, mode: 'drill', correct: 1, attempts: 1 });
+    mock.recordSession({ ts: 2, mode: 'drill', correct: 1, attempts: 1 }); // streak 2
+    mock.recordSession({ ts: 3, mode: 'drill', correct: 0, attempts: 1 }); // reset
     expect(mock.getStreaks().best).toBe(2);
     expect(mock.getStreaks().current).toBe(0);
   });
